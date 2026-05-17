@@ -1,11 +1,25 @@
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
+import { getTranslatedPageMetadata } from "@/lib/metadata";
+import { resolveLocale } from "@/i18n/routing";
 
 type LocalePageProps = {
   params: Promise<{ locale: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: LocalePageProps): Promise<Metadata> {
+  const { locale } = await params;
+
+  return getTranslatedPageMetadata({
+    locale: resolveLocale(locale),
+    namespace: "HomePage",
+  });
+}
 
 export default async function LocaleHomePage({ params }: LocalePageProps) {
   const { locale } = await params;

@@ -208,6 +208,31 @@
     "quantityTotalLabel": "Total quantity",
     "estimatedSubtotalLabel": "Estimated subtotal",
     "pricingDisclaimer": "All menu pricing shown here is preview-oriented. Final totals, fees, taxes, and acceptance remain backend-authoritative.",
+    "openCartCta": "Open cart shell",
+    "viewDetailCta": "View detail"
+  },
+  "MenuDetailPage": {
+    "eyebrow": "Menu Detail",
+    "categoryLabel": "Category",
+    "startingFromLabel": "Starting from",
+    "variantsLabel": "Variants",
+    "addonsLabel": "Add-ons",
+    "availabilityAvailable": "Currently available to add in this shell phase.",
+    "availabilityUnavailable": "Currently marked unavailable.",
+    "addToCartCta": "Add to cart",
+    "unavailableCta": "Unavailable",
+    "pricingTitle": "Preview pricing only",
+    "pricingDescription": "Displayed prices are preview-oriented. Final totals, fees, taxes, and order acceptance remain backend-authoritative.",
+    "detailNoteTitle": "What this detail shell covers",
+    "detailNoteDescription": "This page focuses on localized menu content, cart-safe item selection, and clear boundaries around backend-owned pricing and availability.",
+    "backToMenuCta": "Back to menu",
     "openCartCta": "Open cart shell"
+  },
+  "GalleryPage": {
+    "eyebrow": "Gallery Shell",
+    "title": "Step into the room, the plating, and the evening rhythm.",
+    "description": "This gallery shell reads from the existing gallery service layer and presents CMS-shaped visual entries without unsafe rich-content rendering or heavy client-side effects.",
+    "emptyTitle": "Gallery moments will appear here.",
+    "emptyDescription": "When gallery content is available through the service layer, this shell will render it as lightweight, optimized visual storytelling."
   }
 }

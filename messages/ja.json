@@ -208,6 +208,31 @@
     "quantityTotalLabel": "合計数量",
     "estimatedSubtotalLabel": "参考小計",
     "pricingDisclaimer": "ここに表示する価格はあくまで参考です。最終合計、手数料、税額、注文受理はバックエンドが確定します。",
+    "openCartCta": "カートシェルを開く",
+    "viewDetailCta": "詳細を見る"
+  },
+  "MenuDetailPage": {
+    "eyebrow": "メニュー詳細",
+    "categoryLabel": "カテゴリ",
+    "startingFromLabel": "参考価格",
+    "variantsLabel": "バリエーション",
+    "addonsLabel": "追加項目",
+    "availabilityAvailable": "このシェル段階では追加可能です。",
+    "availabilityUnavailable": "現在は利用不可として表示されています。",
+    "addToCartCta": "カートに追加",
+    "unavailableCta": "利用不可",
+    "pricingTitle": "価格は参考表示のみ",
+    "pricingDescription": "表示価格は参考用です。最終合計、手数料、税額、注文受理はバックエンドが最終判断します。",
+    "detailNoteTitle": "この詳細シェルが扱うこと",
+    "detailNoteDescription": "このページは、多言語メニュー情報、カートに保存してよい選択情報、そして価格と在庫に関するバックエンド権限の境界を明確に示します。",
+    "backToMenuCta": "メニューへ戻る",
     "openCartCta": "カートシェルを開く"
+  },
+  "GalleryPage": {
+    "eyebrow": "ギャラリーシェル",
+    "title": "空間、盛り付け、そして夜のリズムを静かに映します。",
+    "description": "このギャラリーシェルは既存のギャラリーサービス層からデータを読み込み、危険なリッチコンテンツ描画や重いクライアント演出を使わずに、CMS 由来のビジュアルエントリーを表示します。",
+    "emptyTitle": "ギャラリーの情景はここに表示されます。",
+    "emptyDescription": "ギャラリーコンテンツがサービス層から利用できるようになると、このシェルが軽量で最適化されたビジュアル表現として表示します。"
   }
 }

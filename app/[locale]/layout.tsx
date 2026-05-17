@@ -6,7 +6,9 @@ import { notFound } from "next/navigation";
 
 import { SiteShell } from "@/components/layout/SiteShell";
 import { routing } from "@/i18n/routing";
+import { buildRootMetadata } from "@/lib/metadata";
 import { AppProviders } from "@/providers/app-providers";
+import { resolveLocale } from "@/i18n/routing";
 
 import "../globals.css";
 
@@ -35,16 +37,19 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale: requestedLocale } = await params;
-  const locale = hasLocale(routing.locales, requestedLocale)
-    ? requestedLocale
-    : routing.defaultLocale;
+  const locale = resolveLocale(
+    hasLocale(routing.locales, requestedLocale) ? requestedLocale : null,
+  );
 
   const t = await getTranslations({ locale, namespace: "meta" });
 
-  return {
+  return buildRootMetadata({
+    locale,
+    siteDescription: t("siteDescription"),
+    siteName: t("siteName"),
     title: t("siteName"),
     description: t("siteDescription"),
-  };
+  });
 }
 
 export default async function LocaleLayout({

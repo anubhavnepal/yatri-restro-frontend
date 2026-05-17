@@ -1,14 +1,28 @@
+import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 
 import { CheckoutShell } from "@/components/order/CheckoutShell";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
+import { getTranslatedPageMetadata } from "@/lib/metadata";
 import { getMenuItems } from "@/services/menu.service";
 import type { MenuItemDTO } from "@/types/menu.types";
+import { resolveLocale } from "@/i18n/routing";
 
 type CheckoutPageProps = {
   params: Promise<{ locale: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: CheckoutPageProps): Promise<Metadata> {
+  const { locale } = await params;
+
+  return getTranslatedPageMetadata({
+    locale: resolveLocale(locale),
+    namespace: "CheckoutPage",
+  });
+}
 
 export default async function CheckoutPage({
   params,

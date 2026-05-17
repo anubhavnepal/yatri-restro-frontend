@@ -94,7 +94,14 @@ export function MenuShell({ categories, items }: MenuShellProps) {
                     <p className="text-xs uppercase tracking-[0.18em] text-[color:var(--color-accent)]">
                       {categoryTitle}
                     </p>
-                    <h2 className="font-serif text-2xl tracking-[0.04em]">{title}</h2>
+                    <h2 className="font-serif text-2xl tracking-[0.04em]">
+                      <Link
+                        className="transition-colors duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)] hover:text-[color:var(--color-accent)]"
+                        href={`/menu/${item.slug}`}
+                      >
+                        {title}
+                      </Link>
+                    </h2>
                     {description ? (
                       <p className="text-sm leading-7 text-[color:var(--color-foreground-muted)]">
                         {description}
@@ -130,9 +137,19 @@ export function MenuShell({ categories, items }: MenuShellProps) {
                 ) : null}
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-sm text-[color:var(--color-foreground-soft)]">
-                    {item.is_available ? t("availabilityAvailable") : t("availabilityUnavailable")}
-                  </p>
+                  <div className="flex flex-col gap-1">
+                    <p className="text-sm text-[color:var(--color-foreground-soft)]">
+                      {item.is_available
+                        ? t("availabilityAvailable")
+                        : t("availabilityUnavailable")}
+                    </p>
+                    <Link
+                      className="text-sm font-medium text-[color:var(--color-accent)] transition-colors duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)] hover:text-[color:var(--color-accent-strong)]"
+                      href={`/menu/${item.slug}`}
+                    >
+                      {t("viewDetailCta")}
+                    </Link>
+                  </div>
                   <button
                     className={item.is_available ? "button-primary" : "button-secondary opacity-60"}
                     disabled={!item.is_available}

@@ -69,7 +69,7 @@ export function MenuDetailShell({ item }: MenuDetailShellProps) {
               alt={imageAlt}
               className="object-cover"
               fill
-              priority
+              preload
               sizes="(min-width: 1280px) 52rem, (min-width: 1024px) 60vw, 100vw"
               src={item.image.url}
             />

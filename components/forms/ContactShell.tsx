@@ -19,6 +19,20 @@ import {
 } from "@/lib/schema/newsletter.schema";
 import type { AppLocale } from "@/types/common.types";
 
+function getFieldErrorId(fieldName: string) {
+  return `${fieldName}-error`;
+}
+
+function getFieldHintId(fieldName: string) {
+  return `${fieldName}-hint`;
+}
+
+function getDescribedByIds(...ids: Array<string | undefined>) {
+  const value = ids.filter(Boolean).join(" ");
+
+  return value || undefined;
+}
+
 export function ContactShell() {
   const t = useTranslations("ContactPage");
   const locale = useLocale() as AppLocale;
@@ -105,9 +119,23 @@ export function ContactShell() {
                 <span className="text-sm font-medium text-[color:var(--color-foreground)]">
                   {t("nameLabel")}
                 </span>
-                <input className="form-control" type="text" {...contactForm.register("name")} />
+                <input
+                  aria-describedby={
+                    contactForm.formState.errors.name
+                      ? getFieldErrorId("contact-name")
+                      : undefined
+                  }
+                  aria-invalid={Boolean(contactForm.formState.errors.name)}
+                  className="form-control"
+                  type="text"
+                  {...contactForm.register("name")}
+                />
                 {contactForm.formState.errors.name ? (
-                  <span className="field-error" role="alert">
+                  <span
+                    className="field-error"
+                    id={getFieldErrorId("contact-name")}
+                    role="alert"
+                  >
                     {contactForm.formState.errors.name.message}
                   </span>
                 ) : null}
@@ -117,9 +145,23 @@ export function ContactShell() {
                 <span className="text-sm font-medium text-[color:var(--color-foreground)]">
                   {t("emailLabel")}
                 </span>
-                <input className="form-control" type="email" {...contactForm.register("email")} />
+                <input
+                  aria-describedby={
+                    contactForm.formState.errors.email
+                      ? getFieldErrorId("contact-email")
+                      : undefined
+                  }
+                  aria-invalid={Boolean(contactForm.formState.errors.email)}
+                  className="form-control"
+                  type="email"
+                  {...contactForm.register("email")}
+                />
                 {contactForm.formState.errors.email ? (
-                  <span className="field-error" role="alert">
+                  <span
+                    className="field-error"
+                    id={getFieldErrorId("contact-email")}
+                    role="alert"
+                  >
                     {contactForm.formState.errors.email.message}
                   </span>
                 ) : null}
@@ -131,9 +173,23 @@ export function ContactShell() {
                 <span className="text-sm font-medium text-[color:var(--color-foreground)]">
                   {t("phoneLabel")}
                 </span>
-                <input className="form-control" type="tel" {...contactForm.register("phone")} />
+                <input
+                  aria-describedby={
+                    contactForm.formState.errors.phone
+                      ? getFieldErrorId("contact-phone")
+                      : undefined
+                  }
+                  aria-invalid={Boolean(contactForm.formState.errors.phone)}
+                  className="form-control"
+                  type="tel"
+                  {...contactForm.register("phone")}
+                />
                 {contactForm.formState.errors.phone ? (
-                  <span className="field-error" role="alert">
+                  <span
+                    className="field-error"
+                    id={getFieldErrorId("contact-phone")}
+                    role="alert"
+                  >
                     {contactForm.formState.errors.phone.message}
                   </span>
                 ) : null}
@@ -143,9 +199,23 @@ export function ContactShell() {
                 <span className="text-sm font-medium text-[color:var(--color-foreground)]">
                   {t("subjectLabel")}
                 </span>
-                <input className="form-control" type="text" {...contactForm.register("subject")} />
+                <input
+                  aria-describedby={
+                    contactForm.formState.errors.subject
+                      ? getFieldErrorId("contact-subject")
+                      : undefined
+                  }
+                  aria-invalid={Boolean(contactForm.formState.errors.subject)}
+                  className="form-control"
+                  type="text"
+                  {...contactForm.register("subject")}
+                />
                 {contactForm.formState.errors.subject ? (
-                  <span className="field-error" role="alert">
+                  <span
+                    className="field-error"
+                    id={getFieldErrorId("contact-subject")}
+                    role="alert"
+                  >
                     {contactForm.formState.errors.subject.message}
                   </span>
                 ) : null}
@@ -156,10 +226,26 @@ export function ContactShell() {
               <span className="text-sm font-medium text-[color:var(--color-foreground)]">
                 {t("messageLabel")}
               </span>
-              <textarea className="form-control min-h-36 resize-y" {...contactForm.register("message")} />
-              <span className="field-hint">{t("contactHint")}</span>
+              <textarea
+                aria-describedby={getDescribedByIds(
+                  getFieldHintId("contact-message"),
+                  contactForm.formState.errors.message
+                    ? getFieldErrorId("contact-message")
+                    : undefined,
+                )}
+                aria-invalid={Boolean(contactForm.formState.errors.message)}
+                className="form-control min-h-36 resize-y"
+                {...contactForm.register("message")}
+              />
+              <span className="field-hint" id={getFieldHintId("contact-message")}>
+                {t("contactHint")}
+              </span>
               {contactForm.formState.errors.message ? (
-                <span className="field-error" role="alert">
+                <span
+                  className="field-error"
+                  id={getFieldErrorId("contact-message")}
+                  role="alert"
+                >
                   {contactForm.formState.errors.message.message}
                 </span>
               ) : null}
@@ -200,12 +286,22 @@ export function ContactShell() {
               {t("newsletterEmailLabel")}
             </span>
             <input
+              aria-describedby={
+                newsletterForm.formState.errors.email
+                  ? getFieldErrorId("newsletter-email")
+                  : undefined
+              }
+              aria-invalid={Boolean(newsletterForm.formState.errors.email)}
               className="form-control"
               type="email"
               {...newsletterForm.register("email")}
             />
             {newsletterForm.formState.errors.email ? (
-              <span className="field-error" role="alert">
+              <span
+                className="field-error"
+                id={getFieldErrorId("newsletter-email")}
+                role="alert"
+              >
                 {newsletterForm.formState.errors.email.message}
               </span>
             ) : null}

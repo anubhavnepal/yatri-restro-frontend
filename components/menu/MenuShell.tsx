@@ -150,9 +150,10 @@ export function MenuShell({ categories, items }: MenuShellProps) {
                           <Image
                             alt={imageAlt}
                             className="h-full w-full object-contain"
+                            height={144}
+                            sizes="(min-width: 1280px) 220px, (min-width: 768px) 220px, 100vw"
                             src={item.image.url}
                             width={192}
-                            height={144}
                           />
                         </div>
                       </div>
@@ -237,7 +238,7 @@ export function MenuShell({ categories, items }: MenuShellProps) {
                           : t("availabilityUnavailable")}
                       </p>
                       <Link
-                        className="text-sm font-medium text-[color:var(--color-accent)] transition-colors duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)] hover:text-[color:var(--color-accent-strong)]"
+                        className="inline-flex min-h-11 items-center self-start text-sm font-medium text-[color:var(--color-accent)] transition-colors duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)] hover:text-[color:var(--color-accent-strong)]"
                         href={`/menu/${item.slug}`}
                         prefetch={false}
                       >

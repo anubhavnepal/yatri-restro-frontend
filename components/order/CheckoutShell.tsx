@@ -21,6 +21,16 @@ import type { AppLocale } from "@/types/common.types";
 import type { MenuItemDTO } from "@/types/menu.types";
 import type { OrderPricingPreview } from "@/types/order.types";
 
+function getFieldErrorId(fieldName: string) {
+  return `${fieldName}-error`;
+}
+
+function getDescribedByIds(...ids: Array<string | undefined>) {
+  const value = ids.filter(Boolean).join(" ");
+
+  return value || undefined;
+}
+
 type CheckoutShellProps = {
   menuItems: MenuItemDTO[];
 };
@@ -147,11 +157,21 @@ export function CheckoutShell({ menuItems }: CheckoutShellProps) {
               </legend>
               <div className="grid gap-3 sm:grid-cols-2">
                 <label className="selection-card">
-                  <input className="sr-only" type="radio" value="DINE_IN" {...form.register("orderType")} />
+                  <input
+                    className="sr-only"
+                    type="radio"
+                    value="DINE_IN"
+                    {...form.register("orderType")}
+                  />
                   <span>{t("dineInLabel")}</span>
                 </label>
                 <label className="selection-card">
-                  <input className="sr-only" type="radio" value="DELIVERY" {...form.register("orderType")} />
+                  <input
+                    className="sr-only"
+                    type="radio"
+                    value="DELIVERY"
+                    {...form.register("orderType")}
+                  />
                   <span>{t("deliveryLabel")}</span>
                 </label>
               </div>
@@ -163,7 +183,12 @@ export function CheckoutShell({ menuItems }: CheckoutShellProps) {
               </legend>
               <div className="grid gap-3 sm:grid-cols-2">
                 <label className="selection-card">
-                  <input className="sr-only" type="radio" value="COD" {...form.register("paymentMethod")} />
+                  <input
+                    className="sr-only"
+                    type="radio"
+                    value="COD"
+                    {...form.register("paymentMethod")}
+                  />
                   <span>{t("codLabel")}</span>
                 </label>
                 <label className="selection-card">
@@ -184,9 +209,23 @@ export function CheckoutShell({ menuItems }: CheckoutShellProps) {
                   <span className="text-sm font-medium text-[color:var(--color-foreground)]">
                     {t("nameLabel")}
                   </span>
-                  <input className="form-control" type="text" {...form.register("customerName")} />
+                  <input
+                    aria-describedby={
+                      form.formState.errors.customerName
+                        ? getFieldErrorId("checkout-customer-name")
+                        : undefined
+                    }
+                    aria-invalid={Boolean(form.formState.errors.customerName)}
+                    className="form-control"
+                    type="text"
+                    {...form.register("customerName")}
+                  />
                   {form.formState.errors.customerName ? (
-                    <span className="field-error" role="alert">
+                    <span
+                      className="field-error"
+                      id={getFieldErrorId("checkout-customer-name")}
+                      role="alert"
+                    >
                       {form.formState.errors.customerName.message}
                     </span>
                   ) : null}
@@ -195,9 +234,23 @@ export function CheckoutShell({ menuItems }: CheckoutShellProps) {
                   <span className="text-sm font-medium text-[color:var(--color-foreground)]">
                     {t("phoneLabel")}
                   </span>
-                  <input className="form-control" type="tel" {...form.register("customerPhone")} />
+                  <input
+                    aria-describedby={
+                      form.formState.errors.customerPhone
+                        ? getFieldErrorId("checkout-customer-phone")
+                        : undefined
+                    }
+                    aria-invalid={Boolean(form.formState.errors.customerPhone)}
+                    className="form-control"
+                    type="tel"
+                    {...form.register("customerPhone")}
+                  />
                   {form.formState.errors.customerPhone ? (
-                    <span className="field-error" role="alert">
+                    <span
+                      className="field-error"
+                      id={getFieldErrorId("checkout-customer-phone")}
+                      role="alert"
+                    >
                       {form.formState.errors.customerPhone.message}
                     </span>
                   ) : null}
@@ -208,9 +261,23 @@ export function CheckoutShell({ menuItems }: CheckoutShellProps) {
                 <span className="text-sm font-medium text-[color:var(--color-foreground)]">
                   {t("emailLabel")}
                 </span>
-                <input className="form-control" type="email" {...form.register("customerEmail")} />
+                <input
+                  aria-describedby={
+                    form.formState.errors.customerEmail
+                      ? getFieldErrorId("checkout-customer-email")
+                      : undefined
+                  }
+                  aria-invalid={Boolean(form.formState.errors.customerEmail)}
+                  className="form-control"
+                  type="email"
+                  {...form.register("customerEmail")}
+                />
                 {form.formState.errors.customerEmail ? (
-                  <span className="field-error" role="alert">
+                  <span
+                    className="field-error"
+                    id={getFieldErrorId("checkout-customer-email")}
+                    role="alert"
+                  >
                     {form.formState.errors.customerEmail.message}
                   </span>
                 ) : null}
@@ -227,12 +294,22 @@ export function CheckoutShell({ menuItems }: CheckoutShellProps) {
                     {t("addressLine1Label")}
                   </span>
                   <input
+                    aria-describedby={
+                      form.formState.errors.deliveryAddressLine1
+                        ? getFieldErrorId("checkout-address-line-1")
+                        : undefined
+                    }
+                    aria-invalid={Boolean(form.formState.errors.deliveryAddressLine1)}
                     className="form-control"
                     type="text"
                     {...form.register("deliveryAddressLine1")}
                   />
                   {form.formState.errors.deliveryAddressLine1 ? (
-                    <span className="field-error" role="alert">
+                    <span
+                      className="field-error"
+                      id={getFieldErrorId("checkout-address-line-1")}
+                      role="alert"
+                    >
                       {form.formState.errors.deliveryAddressLine1.message}
                     </span>
                   ) : null}
@@ -242,12 +319,22 @@ export function CheckoutShell({ menuItems }: CheckoutShellProps) {
                     {t("addressLine2Label")}
                   </span>
                   <input
+                    aria-describedby={
+                      form.formState.errors.deliveryAddressLine2
+                        ? getFieldErrorId("checkout-address-line-2")
+                        : undefined
+                    }
+                    aria-invalid={Boolean(form.formState.errors.deliveryAddressLine2)}
                     className="form-control"
                     type="text"
                     {...form.register("deliveryAddressLine2")}
                   />
                   {form.formState.errors.deliveryAddressLine2 ? (
-                    <span className="field-error" role="alert">
+                    <span
+                      className="field-error"
+                      id={getFieldErrorId("checkout-address-line-2")}
+                      role="alert"
+                    >
                       {form.formState.errors.deliveryAddressLine2.message}
                     </span>
                   ) : null}
@@ -257,9 +344,23 @@ export function CheckoutShell({ menuItems }: CheckoutShellProps) {
                     <span className="text-sm font-medium text-[color:var(--color-foreground)]">
                       {t("cityLabel")}
                     </span>
-                    <input className="form-control" type="text" {...form.register("deliveryCity")} />
+                    <input
+                      aria-describedby={
+                        form.formState.errors.deliveryCity
+                          ? getFieldErrorId("checkout-delivery-city")
+                          : undefined
+                      }
+                      aria-invalid={Boolean(form.formState.errors.deliveryCity)}
+                      className="form-control"
+                      type="text"
+                      {...form.register("deliveryCity")}
+                    />
                     {form.formState.errors.deliveryCity ? (
-                      <span className="field-error" role="alert">
+                      <span
+                        className="field-error"
+                        id={getFieldErrorId("checkout-delivery-city")}
+                        role="alert"
+                      >
                         {form.formState.errors.deliveryCity.message}
                       </span>
                     ) : null}
@@ -269,12 +370,22 @@ export function CheckoutShell({ menuItems }: CheckoutShellProps) {
                       {t("postalCodeLabel")}
                     </span>
                     <input
+                      aria-describedby={
+                        form.formState.errors.deliveryPostalCode
+                          ? getFieldErrorId("checkout-delivery-postal-code")
+                          : undefined
+                      }
+                      aria-invalid={Boolean(form.formState.errors.deliveryPostalCode)}
                       className="form-control"
                       type="text"
                       {...form.register("deliveryPostalCode")}
                     />
                     {form.formState.errors.deliveryPostalCode ? (
-                      <span className="field-error" role="alert">
+                      <span
+                        className="field-error"
+                        id={getFieldErrorId("checkout-delivery-postal-code")}
+                        role="alert"
+                      >
                         {form.formState.errors.deliveryPostalCode.message}
                       </span>
                     ) : null}
@@ -289,11 +400,21 @@ export function CheckoutShell({ menuItems }: CheckoutShellProps) {
                   {t("specialRequestLabel")}
                 </span>
                 <textarea
+                  aria-describedby={getDescribedByIds(
+                    form.formState.errors.specialRequest
+                      ? getFieldErrorId("checkout-special-request")
+                      : undefined,
+                  )}
+                  aria-invalid={Boolean(form.formState.errors.specialRequest)}
                   className="form-control min-h-28 resize-y"
                   {...form.register("specialRequest")}
                 />
                 {form.formState.errors.specialRequest ? (
-                  <span className="field-error" role="alert">
+                  <span
+                    className="field-error"
+                    id={getFieldErrorId("checkout-special-request")}
+                    role="alert"
+                  >
                     {form.formState.errors.specialRequest.message}
                   </span>
                 ) : null}

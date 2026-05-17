@@ -71,7 +71,7 @@ export function GalleryShell({
                     alt={imageAlt}
                     className="object-cover"
                     fill
-                    priority={index === 0}
+                    preload={index === 0}
                     sizes="(min-width: 1280px) 36rem, (min-width: 640px) 50vw, 100vw"
                     src={entry.image.url}
                   />

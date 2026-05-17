@@ -31,9 +31,9 @@ export function SiteHeaderNavigation({
   const pathname = usePathname() as RouteHref;
 
   return (
-    <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
       <nav aria-label={navigationLabel}>
-        <ul className="flex flex-wrap gap-2">
+        <ul className="flex flex-wrap gap-2.5">
           {items.map((item) => {
             const isActive = isActivePath(pathname, item.href);
 
@@ -61,7 +61,7 @@ export function SiteHeaderNavigation({
 
       <nav
         aria-label={localeLabel}
-        className="flex flex-wrap items-center gap-2"
+        className="flex flex-wrap items-center justify-between gap-3 sm:justify-start"
       >
         <span className="text-xs uppercase tracking-[0.18em] text-[color:var(--color-foreground-soft)]">
           {localeLabel}
@@ -75,7 +75,7 @@ export function SiteHeaderNavigation({
                 <Link
                   aria-current={isCurrent ? "page" : undefined}
                   className={cn(
-                    "inline-flex min-h-10 items-center rounded-full border px-3 py-2 text-sm",
+                    "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-sm",
                     "transition-colors duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)]",
                     isCurrent
                       ? "border-[color:rgba(201,168,105,0.7)] bg-[color:rgba(201,168,105,0.12)] text-[color:var(--color-foreground)]"

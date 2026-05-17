@@ -156,10 +156,8 @@ a {
 }
 
 .detail-list > div {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
+  display: grid;
+  gap: 0.35rem;
   border-bottom: 1px solid rgba(93, 77, 57, 0.54);
   padding-bottom: 0.75rem;
 }
@@ -176,8 +174,9 @@ a {
 .detail-list > div dd {
   color: var(--color-foreground);
   font-weight: 500;
-  max-width: 52%;
-  text-align: right;
+  max-width: none;
+  overflow-wrap: anywhere;
+  text-align: left;
 }
 
 .menu-card-media {
@@ -265,9 +264,11 @@ a {
   gap: 0.5rem;
   min-height: 2.75rem;
   border-radius: var(--radius-pill);
+  cursor: pointer;
   padding: 0.75rem 1rem;
   font-size: 0.95rem;
   font-weight: 600;
+  text-align: center;
   transition:
     border-color var(--motion-duration-fast) var(--motion-ease-standard),
     background-color var(--motion-duration-fast) var(--motion-ease-standard),
@@ -332,6 +333,12 @@ a {
   cursor: not-allowed;
 }
 
+.button-primary:disabled,
+.button-secondary:disabled,
+.button-ghost:disabled {
+  cursor: not-allowed;
+}
+
 .field-error {
   color: #f0b6b6;
   font-size: 0.875rem;
@@ -366,6 +373,25 @@ a {
   border-color: rgba(201, 168, 105, 0.7);
   background: rgba(201, 168, 105, 0.12);
   color: var(--color-foreground);
+}
+
+.selection-card:focus-within {
+  border-color: var(--color-focus);
+  box-shadow: 0 0 0 1px rgba(240, 207, 147, 0.24);
+  color: var(--color-foreground);
+}
+
+@media (min-width: 640px) {
+  .detail-list > div {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .detail-list > div dd {
+    max-width: 52%;
+    text-align: right;
+  }
 }
 
 @keyframes fade-up {

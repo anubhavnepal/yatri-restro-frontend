@@ -30,6 +30,16 @@ function getFieldErrorId(fieldName: string) {
   return `${fieldName}-error`;
 }
 
+function getFieldHintId(fieldName: string) {
+  return `${fieldName}-hint`;
+}
+
+function getDescribedByIds(...ids: Array<string | undefined>) {
+  const value = ids.filter(Boolean).join(" ");
+
+  return value || undefined;
+}
+
 export function ReservationShell() {
   const t = useTranslations("ReservationPage");
   const locale = useLocale() as AppLocale;
@@ -218,8 +228,13 @@ export function ReservationShell() {
                 </span>
                 <input
                   aria-describedby={
-                    form.formState.errors.date ? getFieldErrorId("reservation-date") : undefined
+                    getDescribedByIds(
+                      form.formState.errors.date
+                        ? getFieldErrorId("reservation-date")
+                        : undefined,
+                    )
                   }
+                  aria-invalid={Boolean(form.formState.errors.date)}
                   className="form-control"
                   type="date"
                   {...form.register("date")}
@@ -241,10 +256,13 @@ export function ReservationShell() {
                 </span>
                 <input
                   aria-describedby={
-                    form.formState.errors.guestCount
-                      ? getFieldErrorId("reservation-guest-count")
-                      : undefined
+                    getDescribedByIds(
+                      form.formState.errors.guestCount
+                        ? getFieldErrorId("reservation-guest-count")
+                        : undefined,
+                    )
                   }
+                  aria-invalid={Boolean(form.formState.errors.guestCount)}
                   className="form-control"
                   min={1}
                   step={1}
@@ -265,7 +283,7 @@ export function ReservationShell() {
 
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <button
-                className="button-secondary"
+                className="button-secondary w-full sm:w-auto"
                 onClick={handleAvailabilityPreview}
                 type="button"
               >
@@ -292,6 +310,11 @@ export function ReservationShell() {
                     key={slot.id}
                   >
                     <input
+                      aria-describedby={
+                        form.formState.errors.timeSlotId
+                          ? getFieldErrorId("reservation-time-slot")
+                          : undefined
+                      }
                       className="sr-only"
                       type="radio"
                       value={slot.id}
@@ -334,9 +357,23 @@ export function ReservationShell() {
                 <span className="text-sm font-medium text-[color:var(--color-foreground)]">
                   {t("nameLabel")}
                 </span>
-                <input className="form-control" type="text" {...form.register("customerName")} />
+                <input
+                  aria-describedby={
+                    form.formState.errors.customerName
+                      ? getFieldErrorId("reservation-customer-name")
+                      : undefined
+                  }
+                  aria-invalid={Boolean(form.formState.errors.customerName)}
+                  className="form-control"
+                  type="text"
+                  {...form.register("customerName")}
+                />
                 {form.formState.errors.customerName ? (
-                  <span className="field-error" role="alert">
+                  <span
+                    className="field-error"
+                    id={getFieldErrorId("reservation-customer-name")}
+                    role="alert"
+                  >
                     {form.formState.errors.customerName.message}
                   </span>
                 ) : null}
@@ -346,9 +383,23 @@ export function ReservationShell() {
                 <span className="text-sm font-medium text-[color:var(--color-foreground)]">
                   {t("emailLabel")}
                 </span>
-                <input className="form-control" type="email" {...form.register("customerEmail")} />
+                <input
+                  aria-describedby={
+                    form.formState.errors.customerEmail
+                      ? getFieldErrorId("reservation-customer-email")
+                      : undefined
+                  }
+                  aria-invalid={Boolean(form.formState.errors.customerEmail)}
+                  className="form-control"
+                  type="email"
+                  {...form.register("customerEmail")}
+                />
                 {form.formState.errors.customerEmail ? (
-                  <span className="field-error" role="alert">
+                  <span
+                    className="field-error"
+                    id={getFieldErrorId("reservation-customer-email")}
+                    role="alert"
+                  >
                     {form.formState.errors.customerEmail.message}
                   </span>
                 ) : null}
@@ -359,9 +410,23 @@ export function ReservationShell() {
               <span className="text-sm font-medium text-[color:var(--color-foreground)]">
                 {t("phoneLabel")}
               </span>
-              <input className="form-control" type="tel" {...form.register("customerPhone")} />
+              <input
+                aria-describedby={
+                  form.formState.errors.customerPhone
+                    ? getFieldErrorId("reservation-customer-phone")
+                    : undefined
+                }
+                aria-invalid={Boolean(form.formState.errors.customerPhone)}
+                className="form-control"
+                type="tel"
+                {...form.register("customerPhone")}
+              />
               {form.formState.errors.customerPhone ? (
-                <span className="field-error" role="alert">
+                <span
+                  className="field-error"
+                  id={getFieldErrorId("reservation-customer-phone")}
+                  role="alert"
+                >
                   {form.formState.errors.customerPhone.message}
                 </span>
               ) : null}
@@ -372,12 +437,25 @@ export function ReservationShell() {
                 {t("specialRequestLabel")}
               </span>
               <textarea
+                aria-describedby={getDescribedByIds(
+                  getFieldHintId("reservation-special-request"),
+                  form.formState.errors.specialRequest
+                    ? getFieldErrorId("reservation-special-request")
+                    : undefined,
+                )}
+                aria-invalid={Boolean(form.formState.errors.specialRequest)}
                 className="form-control min-h-28 resize-y"
                 {...form.register("specialRequest")}
               />
-              <span className="field-hint">{t("specialRequestHint")}</span>
+              <span className="field-hint" id={getFieldHintId("reservation-special-request")}>
+                {t("specialRequestHint")}
+              </span>
               {form.formState.errors.specialRequest ? (
-                <span className="field-error" role="alert">
+                <span
+                  className="field-error"
+                  id={getFieldErrorId("reservation-special-request")}
+                  role="alert"
+                >
                   {form.formState.errors.specialRequest.message}
                 </span>
               ) : null}

@@ -27,5 +27,41 @@
     "eyebrow": "Foundation Ready",
     "title": "静かで上質なシェルの土台が整いました。",
     "description": "ロケール対応の App Router 基盤に、再利用可能な余白、タイポグラフィ、アクセシビリティ重視のデザイントークンを備えたサイトシェルを組み込みました。"
+  },
+  "validation": {
+    "common": {
+      "nameRequired": "お名前を入力してください。",
+      "nameTooLong": "お名前は短めに入力してください。",
+      "emailRequired": "メールアドレスを入力してください。",
+      "emailInvalid": "有効なメールアドレスを入力してください。",
+      "emailTooLong": "メールアドレスは短めに入力してください。",
+      "phoneRequired": "電話番号を入力してください。",
+      "phoneInvalid": "有効な電話番号を入力してください。",
+      "phoneTooLong": "電話番号は短めに入力してください。",
+      "specialRequestTooLong": "ご要望は短めに入力してください。"
+    },
+    "reservation": {
+      "dateRequired": "予約日を選択してください。",
+      "dateInvalid": "有効な予約日を選択してください。",
+      "timeSlotRequired": "予約時間を選択してください。",
+      "guestCountInteger": "人数は整数で入力してください。",
+      "guestCountMin": "1名以上で入力してください。",
+      "guestCountMax": "プレビュー用フォームでは20名以下で入力してください。"
+    },
+    "order": {
+      "addressLine1Required": "配達先住所を入力してください。",
+      "addressLine1TooLong": "住所は短めに入力してください。",
+      "addressLine2TooLong": "住所詳細は短めに入力してください。",
+      "cityRequired": "市区町村・エリアを入力してください。",
+      "cityTooLong": "市区町村・エリアは短めに入力してください。",
+      "postalCodeRequired": "郵便番号を入力してください。",
+      "postalCodeInvalid": "有効な郵便番号を入力してください。",
+      "postalCodeTooLong": "郵便番号は短めに入力してください。"
+    },
+    "contact": {
+      "subjectTooLong": "件名は短めに入力してください。",
+      "messageRequired": "お問い合わせ内容を入力してください。",
+      "messageTooLong": "お問い合わせ内容は短めに入力してください。"
+    }
   }
 }

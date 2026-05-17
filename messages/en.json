@@ -27,5 +27,41 @@
     "eyebrow": "Foundation Ready",
     "title": "A calm, premium shell is now in place.",
     "description": "The locale-aware App Router foundation now sits inside a composed site shell with reusable spacing, typography, and accessibility-driven design tokens."
+  },
+  "validation": {
+    "common": {
+      "nameRequired": "Please enter your name.",
+      "nameTooLong": "Please use a shorter name.",
+      "emailRequired": "Please enter your email address.",
+      "emailInvalid": "Please enter a valid email address.",
+      "emailTooLong": "Please use a shorter email address.",
+      "phoneRequired": "Please enter your phone number.",
+      "phoneInvalid": "Please enter a valid phone number.",
+      "phoneTooLong": "Please use a shorter phone number.",
+      "specialRequestTooLong": "Please shorten your special request."
+    },
+    "reservation": {
+      "dateRequired": "Please select a reservation date.",
+      "dateInvalid": "Please select a valid reservation date.",
+      "timeSlotRequired": "Please select a reservation time.",
+      "guestCountInteger": "Please enter a whole number of guests.",
+      "guestCountMin": "At least one guest is required.",
+      "guestCountMax": "Please enter 20 guests or fewer for the preview form."
+    },
+    "order": {
+      "addressLine1Required": "Please enter the delivery address.",
+      "addressLine1TooLong": "Please shorten the delivery address.",
+      "addressLine2TooLong": "Please shorten the address details.",
+      "cityRequired": "Please enter the delivery city or area.",
+      "cityTooLong": "Please shorten the city or area.",
+      "postalCodeRequired": "Please enter the delivery postal code.",
+      "postalCodeInvalid": "Please enter a valid postal code.",
+      "postalCodeTooLong": "Please shorten the postal code."
+    },
+    "contact": {
+      "subjectTooLong": "Please shorten the subject.",
+      "messageRequired": "Please enter your message.",
+      "messageTooLong": "Please shorten your message."
+    }
   }
 }

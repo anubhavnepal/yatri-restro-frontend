@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "siteName": "Yatri Restro",
+    "siteDescription": "Premium Nepali dining experience in Japan."
+  },
+  "navigation": {
+    "home": "Home",
+    "menu": "Menu",
+    "reservation": "Reservation",
+    "gallery": "Gallery",
+    "contact": "Contact",
+    "cart": "Cart"
+  },
+  "common": {
+    "language": "Language",
+    "loading": "Loading...",
+    "skipToContent": "Skip to main content"
+  },
+  "shell": {
+    "brandTagline": "Nepali dining, composed with Japanese restraint",
+    "headerStatus": "Shared shell",
+    "footerTitle": "Customer-facing foundation",
+    "footerNote": "This shell establishes the design language, layout rhythm, and accessibility baseline for the multilingual restaurant experience.",
+    "footerStatus": "Multilingual shell foundation"
+  },
+  "HomePage": {
+    "eyebrow": "Foundation Ready",
+    "title": "A calm, premium shell is now in place.",
+    "description": "The locale-aware App Router foundation now sits inside a composed site shell with reusable spacing, typography, and accessibility-driven design tokens."
+  }
+}

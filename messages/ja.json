@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "siteName": "Yatri Restro",
+    "siteDescription": "日本で楽しむ上質なネパール料理体験。"
+  },
+  "navigation": {
+    "home": "ホーム",
+    "menu": "メニュー",
+    "reservation": "予約",
+    "gallery": "ギャラリー",
+    "contact": "お問い合わせ",
+    "cart": "カート"
+  },
+  "common": {
+    "language": "言語",
+    "loading": "読み込み中...",
+    "skipToContent": "メインコンテンツへ移動"
+  },
+  "shell": {
+    "brandTagline": "ネパール料理の温かさと、日本的な静けさを備えた空間",
+    "headerStatus": "共通シェル",
+    "footerTitle": "顧客向け基盤",
+    "footerNote": "このシェルは、多言語レストラン体験に向けたデザイン言語、レイアウトのリズム、そしてアクセシビリティ基盤を整えるための土台です。",
+    "footerStatus": "多言語シェル基盤"
+  },
+  "HomePage": {
+    "eyebrow": "Foundation Ready",
+    "title": "静かで上質なシェルの土台が整いました。",
+    "description": "ロケール対応の App Router 基盤に、再利用可能な余白、タイポグラフィ、アクセシビリティ重視のデザイントークンを備えたサイトシェルを組み込みました。"
+  }
+}

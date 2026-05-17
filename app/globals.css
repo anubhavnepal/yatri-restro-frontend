@@ -134,6 +134,111 @@ a {
   animation: fade-up var(--motion-duration-slow) var(--motion-ease-standard) both;
 }
 
+.form-control {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: rgba(10, 9, 7, 0.78);
+  color: var(--color-foreground);
+  padding: 0.875rem 1rem;
+  transition:
+    border-color var(--motion-duration-fast) var(--motion-ease-standard),
+    background-color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.form-control::placeholder {
+  color: var(--color-foreground-soft);
+}
+
+.form-control:hover {
+  border-color: var(--color-border-strong);
+}
+
+.form-control:focus-visible {
+  border-color: var(--color-focus);
+}
+
+.button-primary,
+.button-secondary,
+.button-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  border-radius: var(--radius-pill);
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition:
+    border-color var(--motion-duration-fast) var(--motion-ease-standard),
+    background-color var(--motion-duration-fast) var(--motion-ease-standard),
+    color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.button-primary {
+  border: 1px solid rgba(201, 168, 105, 0.7);
+  background: linear-gradient(180deg, rgba(201, 168, 105, 0.24), rgba(201, 168, 105, 0.16));
+  color: var(--color-foreground);
+}
+
+.button-primary:hover {
+  background: linear-gradient(180deg, rgba(201, 168, 105, 0.34), rgba(201, 168, 105, 0.24));
+}
+
+.button-secondary {
+  border: 1px solid var(--color-border-strong);
+  background: rgba(18, 16, 13, 0.84);
+  color: var(--color-foreground);
+}
+
+.button-secondary:hover,
+.button-ghost:hover {
+  border-color: var(--color-accent);
+}
+
+.button-ghost {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-foreground-muted);
+}
+
+.field-error {
+  color: #f0b6b6;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.field-hint {
+  color: var(--color-foreground-soft);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.selection-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: rgba(18, 16, 13, 0.72);
+  color: var(--color-foreground-muted);
+  cursor: pointer;
+  padding: 1rem;
+  text-align: center;
+  transition:
+    border-color var(--motion-duration-fast) var(--motion-ease-standard),
+    color var(--motion-duration-fast) var(--motion-ease-standard),
+    background-color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.selection-card:has(input:checked) {
+  border-color: rgba(201, 168, 105, 0.7);
+  background: rgba(201, 168, 105, 0.12);
+  color: var(--color-foreground);
+}
+
 @keyframes fade-up {
   from {
     opacity: 0;

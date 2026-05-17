@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useLocale, useTranslations } from "next-intl";
 
+import { buildCartPreviewSummary } from "@/lib/cart-preview";
 import { Link } from "@/i18n/navigation";
 import { formatCurrency } from "@/lib/formatters";
 import { createZodResolver } from "@/lib/schema/react-hook-form";
@@ -15,9 +16,14 @@ import {
 } from "@/lib/schema/order.schema";
 import { useCartStore } from "@/store/cart.store";
 import type { AppLocale } from "@/types/common.types";
+import type { MenuItemDTO } from "@/types/menu.types";
 import type { OrderPricingPreview } from "@/types/order.types";
 
-export function CheckoutShell() {
+type CheckoutShellProps = {
+  menuItems: MenuItemDTO[];
+};
+
+export function CheckoutShell({ menuItems }: CheckoutShellProps) {
   const t = useTranslations("CheckoutPage");
   const locale = useLocale() as AppLocale;
   const orderType = useCartStore((state) => state.orderType);
@@ -65,9 +71,9 @@ export function CheckoutShell() {
     }
   }, [orderType, setOrderType, watchedOrderType]);
 
-  const totalQuantity = useMemo(
-    () => items.reduce((sum, item) => sum + item.quantity, 0),
-    [items],
+  const cartPreview = useMemo(
+    () => buildCartPreviewSummary(items, menuItems, locale),
+    [items, locale, menuItems],
   );
 
   const onSubmit = form.handleSubmit(async (rawValues) => {
@@ -313,11 +319,13 @@ export function CheckoutShell() {
         <dl className="grid gap-3 text-sm leading-7">
           <div className="flex items-center justify-between gap-4">
             <dt className="text-[color:var(--color-foreground-muted)]">{t("lineItemsLabel")}</dt>
-            <dd className="font-medium text-[color:var(--color-foreground)]">{items.length}</dd>
+            <dd className="font-medium text-[color:var(--color-foreground)]">{cartPreview.itemCount}</dd>
           </div>
           <div className="flex items-center justify-between gap-4">
             <dt className="text-[color:var(--color-foreground-muted)]">{t("quantityTotalLabel")}</dt>
-            <dd className="font-medium text-[color:var(--color-foreground)]">{totalQuantity}</dd>
+            <dd className="font-medium text-[color:var(--color-foreground)]">
+              {cartPreview.quantityTotal}
+            </dd>
           </div>
           <div className="flex items-center justify-between gap-4">
             <dt className="text-[color:var(--color-foreground-muted)]">{t("orderTypeSnapshotLabel")}</dt>
@@ -325,7 +333,29 @@ export function CheckoutShell() {
               {orderType === "DINE_IN" ? t("dineInLabel") : t("deliveryLabel")}
             </dd>
           </div>
+          <div className="flex items-center justify-between gap-4">
+            <dt className="text-[color:var(--color-foreground-muted)]">{t("estimatedSubtotalBeforeSubmitLabel")}</dt>
+            <dd className="font-medium text-[color:var(--color-foreground)]">
+              {formatCurrency(cartPreview.estimatedSubtotal, locale)}
+            </dd>
+          </div>
         </dl>
+
+        {cartPreview.lines.length > 0 ? (
+          <div className="rounded-[var(--radius-md)] border border-[color:var(--color-border)] bg-[color:rgba(18,16,13,0.72)] px-[var(--space-4)] py-[var(--space-4)]">
+            <h3 className="text-sm font-medium text-[color:var(--color-foreground)]">
+              {t("cartItemsTitle")}
+            </h3>
+            <ul className="mt-3 flex flex-col gap-2 text-sm leading-7 text-[color:var(--color-foreground-muted)]">
+              {cartPreview.lines.map((line, index) => (
+                <li className="flex items-center justify-between gap-4" key={`${line.menuItemId}-${index}`}>
+                  <span>{line.title}</span>
+                  <span>{line.quantity}x</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
 
         <div className="rounded-[var(--radius-md)] border border-dashed border-[color:var(--color-border)] px-[var(--space-4)] py-[var(--space-4)] text-sm leading-7 text-[color:var(--color-foreground-soft)]">
           <p className="font-medium text-[color:var(--color-foreground)]">

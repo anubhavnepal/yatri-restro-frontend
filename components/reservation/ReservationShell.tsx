@@ -46,14 +46,10 @@ export function ReservationShell() {
     [reservationSchema],
   );
 
-  const { date, guestCount, timeSlotId, setPrefill } = useReservationStore(
-    (state) => ({
-      date: state.date,
-      guestCount: state.guestCount,
-      timeSlotId: state.timeSlotId,
-      setPrefill: state.setPrefill,
-    }),
-  );
+  const date = useReservationStore((state) => state.date);
+  const guestCount = useReservationStore((state) => state.guestCount);
+  const timeSlotId = useReservationStore((state) => state.timeSlotId);
+  const setPrefill = useReservationStore((state) => state.setPrefill);
 
   const [availabilityState, setAvailabilityState] = useState<AvailabilityState>({
     status: "idle",

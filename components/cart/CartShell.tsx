@@ -1,17 +1,22 @@
 'use client';
 
 import { useMemo } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
+import { buildCartPreviewSummary } from "@/lib/cart-preview";
+import { formatCurrency } from "@/lib/formatters";
 import { Link } from "@/i18n/navigation";
 import { useCartStore } from "@/store/cart.store";
+import type { AppLocale } from "@/types/common.types";
+import type { MenuItemDTO } from "@/types/menu.types";
 
-function formatAddonSummary(addonIds: string[]) {
-  return addonIds.length > 0 ? addonIds.join(", ") : null;
-}
+type CartShellProps = {
+  menuItems: MenuItemDTO[];
+};
 
-export function CartShell() {
+export function CartShell({ menuItems }: CartShellProps) {
   const t = useTranslations("CartPage");
+  const locale = useLocale() as AppLocale;
   const items = useCartStore((state) => state.items);
   const orderType = useCartStore((state) => state.orderType);
   const clearCart = useCartStore((state) => state.clearCart);
@@ -19,9 +24,9 @@ export function CartShell() {
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const setOrderType = useCartStore((state) => state.setOrderType);
 
-  const totalQuantity = useMemo(
-    () => items.reduce((sum, item) => sum + item.quantity, 0),
-    [items],
+  const cartPreview = useMemo(
+    () => buildCartPreviewSummary(items, menuItems, locale),
+    [items, locale, menuItems],
   );
 
   return (
@@ -71,38 +76,39 @@ export function CartShell() {
           </div>
         ) : (
           <div className="flex flex-col gap-[var(--space-4)]">
-            {items.map((item) => {
-              const addonSummary = formatAddonSummary(item.addonIds);
-
+            {cartPreview.lines.map((line, index) => {
               return (
                 <article
                   className="rounded-[var(--radius-lg)] border border-[color:var(--color-border)] bg-[color:rgba(18,16,13,0.72)] px-[var(--space-5)] py-[var(--space-5)]"
-                  key={JSON.stringify(item)}
+                  key={`${line.menuItemId}-${index}`}
                 >
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div className="flex flex-col gap-2">
                       <h2 className="text-base font-medium text-[color:var(--color-foreground)]">
-                        {t("itemLabel")}: <span className="font-mono">{item.menuItemId}</span>
+                        {line.title}
                       </h2>
-                      {item.variantId ? (
+                      {line.variantName ? (
                         <p className="text-sm text-[color:var(--color-foreground-muted)]">
-                          {t("variantLabel")}: <span className="font-mono">{item.variantId}</span>
+                          {t("variantLabel")}: {line.variantName}
                         </p>
                       ) : null}
-                      {addonSummary ? (
+                      {line.addonNames.length > 0 ? (
                         <p className="text-sm text-[color:var(--color-foreground-muted)]">
-                          {t("addonsLabel")}: <span className="font-mono">{addonSummary}</span>
+                          {t("addonsLabel")}: {line.addonNames.join(", ")}
                         </p>
                       ) : null}
+                      <p className="text-sm text-[color:var(--color-foreground-soft)]">
+                        {t("estimatedLineLabel")}: {formatCurrency(line.lineTotal, locale)}
+                      </p>
                     </div>
 
                     <button
                       className="button-ghost self-start"
                       onClick={() =>
                         removeItem({
-                          menuItemId: item.menuItemId,
-                          variantId: item.variantId,
-                          addonIds: item.addonIds,
+                          menuItemId: items[index]?.menuItemId ?? line.menuItemId,
+                          variantId: items[index]?.variantId,
+                          addonIds: items[index]?.addonIds ?? [],
                         })
                       }
                       type="button"
@@ -121,11 +127,11 @@ export function CartShell() {
                       onClick={() =>
                         updateQuantity(
                           {
-                            menuItemId: item.menuItemId,
-                            variantId: item.variantId,
-                            addonIds: item.addonIds,
+                            menuItemId: items[index]?.menuItemId ?? line.menuItemId,
+                            variantId: items[index]?.variantId,
+                            addonIds: items[index]?.addonIds ?? [],
                           },
-                          item.quantity - 1,
+                          line.quantity - 1,
                         )
                       }
                       type="button"
@@ -133,7 +139,7 @@ export function CartShell() {
                       -
                     </button>
                     <span className="min-w-10 text-center font-medium text-[color:var(--color-foreground)]">
-                      {item.quantity}
+                      {line.quantity}
                     </span>
                     <button
                       aria-label={t("quantityIncrease")}
@@ -141,11 +147,11 @@ export function CartShell() {
                       onClick={() =>
                         updateQuantity(
                           {
-                            menuItemId: item.menuItemId,
-                            variantId: item.variantId,
-                            addonIds: item.addonIds,
+                            menuItemId: items[index]?.menuItemId ?? line.menuItemId,
+                            variantId: items[index]?.variantId,
+                            addonIds: items[index]?.addonIds ?? [],
                           },
-                          item.quantity + 1,
+                          line.quantity + 1,
                         )
                       }
                       type="button"
@@ -171,11 +177,19 @@ export function CartShell() {
           </div>
           <div className="flex items-center justify-between gap-4">
             <dt className="text-[color:var(--color-foreground-muted)]">{t("lineItemsLabel")}</dt>
-            <dd className="font-medium text-[color:var(--color-foreground)]">{items.length}</dd>
+            <dd className="font-medium text-[color:var(--color-foreground)]">{cartPreview.itemCount}</dd>
           </div>
           <div className="flex items-center justify-between gap-4">
             <dt className="text-[color:var(--color-foreground-muted)]">{t("quantityTotalLabel")}</dt>
-            <dd className="font-medium text-[color:var(--color-foreground)]">{totalQuantity}</dd>
+            <dd className="font-medium text-[color:var(--color-foreground)]">
+              {cartPreview.quantityTotal}
+            </dd>
+          </div>
+          <div className="flex items-center justify-between gap-4">
+            <dt className="text-[color:var(--color-foreground-muted)]">{t("estimatedSubtotalLabel")}</dt>
+            <dd className="font-medium text-[color:var(--color-foreground)]">
+              {formatCurrency(cartPreview.estimatedSubtotal, locale)}
+            </dd>
           </div>
         </dl>
 

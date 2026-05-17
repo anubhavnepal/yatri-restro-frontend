@@ -24,6 +24,7 @@ export type ReservationAvailabilityResult = {
   available: boolean;
   time_slots: ReservationTimeSlotDTO[];
   note?: string;
+  is_estimate?: boolean;
 };
 
 export type ReservationSubmissionInput = {
@@ -39,6 +40,7 @@ export type ReservationSubmissionInput = {
 export type ReservationSubmissionResult = {
   id: string;
   status: ReservationStatus;
+  reservation_reference?: string;
   message?: string;
 };
 

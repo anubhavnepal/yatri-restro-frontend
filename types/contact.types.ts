@@ -1,3 +1,5 @@
+import type { AppLocale, ISODateTimeString } from "@/types/common.types";
+
 export type ContactFormInput = {
   name: string;
   email: string;
@@ -9,13 +11,15 @@ export type ContactFormInput = {
 export type ContactSubmissionResult = {
   id?: string;
   received: boolean;
+  received_at?: ISODateTimeString;
 };
 
 export type NewsletterSubscriptionInput = {
   email: string;
-  locale?: "en" | "ja";
+  locale?: AppLocale;
 };
 
 export type NewsletterSubscriptionResult = {
   subscribed: boolean;
+  received_at?: ISODateTimeString;
 };

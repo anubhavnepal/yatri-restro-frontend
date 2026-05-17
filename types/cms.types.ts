@@ -3,6 +3,8 @@ export type CmsImageAsset = {
   url: string;
   alt_en?: string | null;
   alt_ja?: string | null;
+  caption_en?: string | null;
+  caption_ja?: string | null;
   width?: number | null;
   height?: number | null;
 };

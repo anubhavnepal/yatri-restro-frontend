@@ -1,4 +1,10 @@
 import { apiClient } from "@/lib/api-client";
+import {
+  getMockMenuCategories,
+  getMockMenuItemBySlug,
+  getMockMenuItems,
+} from "@/lib/mock-data/menu";
+import { resolveServiceCall } from "@/lib/service-runtime";
 import type { ApiResponse } from "@/types/api.types";
 import type {
   MenuCategoryDTO,
@@ -9,17 +15,27 @@ import type {
 export function getMenuItems(
   query?: MenuQueryParams,
 ): Promise<ApiResponse<MenuItemDTO[]>> {
-  return apiClient.get<MenuItemDTO[]>("/menu/", {
-    query,
-  });
+  return resolveServiceCall(
+    () => getMockMenuItems(query),
+    () =>
+      apiClient.get<MenuItemDTO[]>("/menu/", {
+        query,
+      }),
+  );
 }
 
 export function getMenuCategories(): Promise<ApiResponse<MenuCategoryDTO[]>> {
-  return apiClient.get<MenuCategoryDTO[]>("/categories/");
+  return resolveServiceCall(
+    () => getMockMenuCategories(),
+    () => apiClient.get<MenuCategoryDTO[]>("/categories/"),
+  );
 }
 
 export function getMenuItemBySlug(
   slug: string,
 ): Promise<ApiResponse<MenuItemDTO>> {
-  return apiClient.get<MenuItemDTO>(`/menu/${slug}/`);
+  return resolveServiceCall(
+    () => getMockMenuItemBySlug(slug),
+    () => apiClient.get<MenuItemDTO>(`/menu/${slug}/`),
+  );
 }

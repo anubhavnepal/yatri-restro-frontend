@@ -50,3 +50,8 @@ export type MenuQueryParams = ApiQueryParams & {
   search?: string;
   featured?: boolean;
 };
+
+export type MenuCollectionDTO = {
+  categories: MenuCategoryDTO[];
+  items: MenuItemDTO[];
+};

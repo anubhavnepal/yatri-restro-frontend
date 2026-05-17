@@ -1,3 +1,5 @@
+import type { CurrencyCode } from "@/types/common.types";
+
 export type OrderType = "DINE_IN" | "DELIVERY";
 
 export type PaymentMethod = "COD" | "PAY_AT_RESTAURANT";
@@ -39,10 +41,18 @@ export type OrderSubmissionInput = {
   special_request?: string;
 };
 
+export type OrderPricingPreview = {
+  currency: CurrencyCode;
+  subtotal: number;
+  estimated_total: number;
+  is_estimated: true;
+};
+
 export type OrderSubmissionResult = {
   id: string;
+  order_reference?: string;
   order_status: OrderStatus;
   payment_status: PaymentStatus;
-  total?: number;
+  pricing_preview?: OrderPricingPreview;
   message?: string;
 };

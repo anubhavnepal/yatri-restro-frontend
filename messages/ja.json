@@ -1,7 +1,7 @@
 {
   "meta": {
     "siteName": "Yatri Restro",
-    "siteDescription": "日本で楽しむ上質なネパール料理体験。"
+    "siteDescription": "日本で楽しむ、英語と日本語対応の上質なネパール料理プレビュー。"
   },
   "navigation": {
     "home": "ホーム",
@@ -21,19 +21,36 @@
     "skipToContent": "メインコンテンツへ移動"
   },
   "shell": {
-    "brandTagline": "ネパール料理の温かさと、日本的な静けさを備えた空間",
-    "headerStatus": "共通シェル",
+    "brandTagline": "ネパール料理の温かさを、日本の夜にふさわしい静けさとともに",
+    "headerStatus": "モックモードで公開中のゲストプレビュー",
     "primaryNavigationLabel": "主要ナビゲーション",
     "localeSwitcherLabel": "言語",
-    "footerTitle": "顧客向け基盤",
-    "footerNote": "このシェルは、多言語レストラン体験に向けたデザイン言語、レイアウトのリズム、そしてアクセシビリティ基盤を整えるための土台です。",
-    "footerStatus": "多言語シェル基盤",
+    "footerTitle": "多言語の顧客向けプレビュー",
+    "footerNote": "このフロントエンドは、Django REST API 開発中のため現在は分離されたモックモードで動作しています。予約確定、最終価格、税額、配達料、支払い状態はバックエンドが管理します。",
+    "footerStatus": "モックモードが既定値です",
     "footerNavigationLabel": "フッターナビゲーション"
   },
   "HomePage": {
-    "eyebrow": "Foundation Ready",
-    "title": "静かで上質なシェルの土台が整いました。",
-    "description": "ロケール対応の App Router 基盤に、再利用可能な余白、タイポグラフィ、アクセシビリティ重視のデザイントークンを備えたサイトシェルを組み込みました。"
+    "eyebrow": "Yatri Restro",
+    "title": "日本の夜に寄り添う、上質なネパール料理体験。",
+    "description": "バックエンドがまだ開発中でも、英語と日本語でメニュー、予約、ギャラリー、チェックアウトまでの流れを、落ち着いた顧客向けプレビューとして確かめられます。",
+    "primaryCta": "メニューを見る",
+    "secondaryCta": "席を予約する",
+    "atmosphereTitle": "静かに空間を知るための入口",
+    "atmosphereDescription": "店の雰囲気を眺め、来店前の導線を確かめながら、英語と日本語のプレビューをゆっくり体験できます。",
+    "atmospherePrimaryCta": "ギャラリーを見る",
+    "atmosphereSecondaryCta": "お問い合わせ",
+    "previewTitle": "メニューと注文体験のプレビュー",
+    "previewDescription": "料理を見比べ、バリエーションや追加項目を確認しながら、フロントエンドが最終価格権限を主張しない形でカートへ進めます。",
+    "previewPrimaryCta": "メニューを開く",
+    "previewSecondaryCta": "カートを開く",
+    "visitTitle": "予約と来店準備",
+    "visitDescription": "席の希望や来店情報を送りながら、予約導線を確かめられます。最終的な空き状況と確定はバックエンドが担当します。",
+    "visitPrimaryCta": "予約を始める",
+    "visitSecondaryCta": "お問い合わせする",
+    "mockModeTitle": "モックデータの境界",
+    "mockModeDescription": "このランディングページは現在、分離されたモックデータで動作しています。予約確定、注文受付、税額、配達料、支払い状態は Django API 準備後にバックエンドが管理します。",
+    "mockModeCta": "ギャラリーへ"
   },
   "validation": {
     "common": {
@@ -72,9 +89,9 @@
     }
   },
   "ReservationPage": {
-    "eyebrow": "予約シェル",
+    "eyebrow": "予約プレビュー",
     "title": "プレビューを前提にした予約リクエストフローです。",
-    "description": "このシェルは予約情報を収集し、補助的な空き状況プレビューを表示し、型付きサービス層を通して予約リクエストを送信します。",
+    "description": "このページは予約情報を収集し、補助的な空き状況プレビューを表示し、型付きサービス層を通して予約リクエストを送信します。",
     "previewTitle": "空き状況プレビュー",
     "previewDescription": "プレビュー結果は参考情報です。最終的な確定や競合判定はバックエンドが担当します。",
     "dateLabel": "予約日",
@@ -98,21 +115,21 @@
     "submitError": "予約リクエストを送信できませんでした。",
     "finalAuthorityNote": "最終確定はバックエンドが行います。",
     "referenceLabel": "受付番号",
-    "sidebarTitle": "このシェルが示すこと",
+    "sidebarTitle": "このページが示すこと",
     "sidebarDescription": "フロントエンドは希望内容を集め、参考用プレビューと最終的なバックエンド確定を明確に分けます。",
-    "confirmationTitle": "最終確定について",
+    "confirmationTitle": "最終確認について",
     "confirmationDescription": "フロントエンドで送信に成功しても、それは予約リクエストです。予約確定、競合確認、時間の最終判定はバックエンドが担当します。"
   },
   "CartPage": {
-    "eyebrow": "カートシェル",
-    "title": "チェックアウト前に共有カート状態を確認します。",
-    "description": "このシェルは既存のカートストアをそのまま読み取り、メニュー統合までは価格情報をあえて非確定のまま扱います。",
+    "eyebrow": "カートプレビュー",
+    "title": "チェックアウトへ進む前にカート内容を確認します。",
+    "description": "このページは共有カートストアを読み取り、最終合計や手数料はバックエンド確認まで非確定のまま扱います。",
     "dineInLabel": "店内利用",
     "deliveryLabel": "配達",
     "emptyTitle": "カートは現在空です。",
-    "emptyDescription": "メニュー統合がまだ未実装のため、このシェル段階では想定内です。",
-    "integrationNote": "今後メニューページがカートストアへ接続されると、ここに選択済み商品と詳細情報が表示されます。",
-    "returnHomeCta": "ホームへ戻る",
+    "emptyDescription": "メニューを開いてプレビュー注文を始めてください。追加した商品は共有カートストアを通じてすぐにここに反映されます。",
+    "integrationNote": "商品名、バリアント、参考行合計はここで確認できますが、最終価格と受付可否はバックエンドが決定します。",
+    "browseMenuCta": "メニューを開く",
     "itemLabel": "メニューID",
     "variantLabel": "バリアント",
     "addonsLabel": "追加項目",
@@ -127,17 +144,17 @@
     "estimatedLineLabel": "参考行合計",
     "estimatedSubtotalLabel": "参考小計",
     "pricingNote": "価格はまだ参考扱いです。最終合計、税額、配達料金はバックエンドが確定します。",
-    "checkoutCta": "チェックアウトシェルへ進む",
+    "checkoutCta": "チェックアウトへ進む",
     "clearCartLabel": "カートを空にする",
-    "reservationCta": "予約シェルを開く"
+    "reservationCta": "予約をリクエスト"
   },
   "CheckoutPage": {
-    "eyebrow": "チェックアウトシェル",
-    "title": "最終価格権限を主張せずに注文リクエストを送信します。",
-    "description": "このシェルは Zod と react-hook-form で入力を検証し、値をサービス層へマッピングしつつ、注文受付、料金、支払い状態の最終権限をバックエンドに残します。",
+    "eyebrow": "チェックアウトプレビュー",
+    "title": "最終合計はバックエンドに任せたまま、注文リクエストを送信します。",
+    "description": "このページは Zod と react-hook-form で入力を検証し、値をサービス層へマッピングしつつ、注文受付、料金、支払い状態の最終権限をバックエンドに残します。",
     "emptyTitle": "チェックアウトにはカート商品が必要です。",
-    "emptyDescription": "まずカートシェルを利用してください。メニュー統合は次の段階で追加されます。",
-    "emptyCta": "カートシェルへ戻る",
+    "emptyDescription": "プレビュー注文を続ける前に、メニューまたはカートへ戻って商品を確認してください。",
+    "emptyCta": "カートを確認",
     "emptyError": "チェックアウト送信前に少なくとも1件の商品をカートへ追加してください。",
     "orderTypeLabel": "注文種別",
     "dineInLabel": "店内利用",
@@ -162,7 +179,7 @@
     "quantityTotalLabel": "合計数量",
     "orderTypeSnapshotLabel": "現在のカート種別",
     "estimatedTitle": "合計は参考表示のみ",
-    "estimatedDescription": "このシェルは最終価格の権限を持ちません。送信後に返るプレビュー合計も、バックエンド確認までは参考情報です。",
+    "estimatedDescription": "このページは最終価格の権限を持ちません。送信後に返るプレビュー合計も、バックエンド確認までは参考情報です。",
     "responsePreviewTitle": "返却された価格プレビュー",
     "subtotalLabel": "小計",
     "estimatedTotalLabel": "参考合計",
@@ -170,14 +187,14 @@
     "referenceLabel": "受付番号",
     "orderStatusLabel": "注文状態",
     "paymentStatusLabel": "支払い状態",
-    "backToCartCta": "カートシェルへ戻る",
+    "backToCartCta": "カートを確認",
     "estimatedSubtotalBeforeSubmitLabel": "参考小計",
     "cartItemsTitle": "現在のカート商品"
   },
   "ContactPage": {
-    "eyebrow": "お問い合わせシェル",
-    "title": "型付きサービス層につながるお問い合わせシェルです。",
-    "description": "これらのフォームは入力をわかりやすく検証し、既存のサービス層を通じて送信しつつ、個人情報を共有状態へ保存しません。",
+    "eyebrow": "お問い合わせプレビュー",
+    "title": "英語と日本語で、分かりやすくお問い合わせできます。",
+    "description": "これらのフォームは入力を分かりやすく検証し、既存のサービス層を通じて送信しつつ、個人情報を共有状態へ保存しません。",
     "nameLabel": "お名前",
     "emailLabel": "メールアドレス",
     "phoneLabel": "電話番号",
@@ -188,8 +205,8 @@
     "contactSubmitting": "お問い合わせを送信しています...",
     "contactSuccess": "お問い合わせを送信しました。",
     "contactError": "お問い合わせを送信できませんでした。",
-    "newsletterTitle": "ニュースレターシェル",
-    "newsletterDescription": "最小限のニュースレター登録をお問い合わせフローから分離し、既存のニュースレターサービスへ接続しています。",
+    "newsletterTitle": "ニュースレタープレビュー",
+    "newsletterDescription": "最小限のニュースレター登録をお問い合わせフローと分離し、個人情報を共有状態に保存せずに既存のサービス層を使います。",
     "newsletterHint": "購読処理と最終的な配信動作はバックエンドが管理します。",
     "newsletterEmailLabel": "購読用メールアドレス",
     "newsletterSubmit": "最新情報を購読",
@@ -198,14 +215,14 @@
     "newsletterError": "ニュースレター登録を送信できませんでした。"
   },
   "MenuPage": {
-    "eyebrow": "メニューシェル",
-    "title": "最初のサービス連携メニュー一覧です。",
-    "description": "このメニューシェルは既存のメニューサービス層からデータを読み込み、バックエンド風の多言語フィールドを表示しつつ、最終価格権限を主張しない最小限のカート追加を行います。",
+    "eyebrow": "メニュープレビュー",
+    "title": "自分の速度で、多言語のメニューを選びます。",
+    "description": "このメニューページは既存のサービス層からデータを読み込み、バックエンド風の多言語フィールドを表示しながら、最終価格権限を主張せずにカートへ追加できます。",
     "allCategories": "すべてのカテゴリ",
     "startingFromLabel": "参考価格",
     "variantsLabel": "バリエーション",
     "addonsLabel": "追加項目",
-    "availabilityAvailable": "このシェル段階では追加可能です。",
+    "availabilityAvailable": "このモックプレビューでは追加可能です。",
     "availabilityUnavailable": "現在は利用不可として表示されています。",
     "addToCartCta": "カートに追加",
     "unavailableCta": "利用不可",
@@ -214,8 +231,8 @@
     "lineItemsLabel": "行数",
     "quantityTotalLabel": "合計数量",
     "estimatedSubtotalLabel": "参考小計",
-    "pricingDisclaimer": "ここに表示する価格はあくまで参考です。最終合計、手数料、税額、注文受理はバックエンドが確定します。",
-    "openCartCta": "カートシェルを開く",
+    "pricingDisclaimer": "ここに表示する価格はあくまで参考です。最終合計、手数料、税額、注文受付はバックエンドが確定します。",
+    "openCartCta": "カートを確認",
     "viewDetailCta": "詳細を見る"
   },
   "MenuDetailPage": {
@@ -224,22 +241,22 @@
     "startingFromLabel": "参考価格",
     "variantsLabel": "バリエーション",
     "addonsLabel": "追加項目",
-    "availabilityAvailable": "このシェル段階では追加可能です。",
+    "availabilityAvailable": "このモックプレビューでは追加可能です。",
     "availabilityUnavailable": "現在は利用不可として表示されています。",
     "addToCartCta": "カートに追加",
     "unavailableCta": "利用不可",
     "pricingTitle": "価格は参考表示のみ",
-    "pricingDescription": "表示価格は参考用です。最終合計、手数料、税額、注文受理はバックエンドが最終判断します。",
-    "detailNoteTitle": "この詳細シェルが扱うこと",
+    "pricingDescription": "表示価格は参考用です。最終合計、手数料、税額、注文受付はバックエンドが最終判断します。",
+    "detailNoteTitle": "この詳細ページが扱うこと",
     "detailNoteDescription": "このページは、多言語メニュー情報、カートに保存してよい選択情報、そして価格と在庫に関するバックエンド権限の境界を明確に示します。",
     "backToMenuCta": "メニューへ戻る",
-    "openCartCta": "カートシェルを開く"
+    "openCartCta": "カートを確認"
   },
   "GalleryPage": {
-    "eyebrow": "ギャラリーシェル",
+    "eyebrow": "ギャラリープレビュー",
     "title": "空間、盛り付け、そして夜のリズムを静かに映します。",
-    "description": "このギャラリーシェルは既存のギャラリーサービス層からデータを読み込み、危険なリッチコンテンツ描画や重いクライアント演出を使わずに、CMS 由来のビジュアルエントリーを表示します。",
+    "description": "このギャラリーページは既存のサービス層からデータを読み込み、危険なリッチコンテンツ描画や重いクライアント演出を使わずに、CMS 由来のビジュアルエントリーを表示します。",
     "emptyTitle": "ギャラリーの情景はここに表示されます。",
-    "emptyDescription": "ギャラリーコンテンツがサービス層から利用できるようになると、このシェルが軽量で最適化されたビジュアル表現として表示します。"
+    "emptyDescription": "さらにギャラリーコンテンツがサービス層から利用できるようになれば、このページで軽量で最適化されたビジュアル表現を続けて提供します。"
   }
 }

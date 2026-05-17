@@ -1,36 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Yatri Restro Frontend
 
-## Getting Started
+Customer-facing Next.js frontend for a premium Nepali restaurant experience in Japan.
 
-First, run the development server:
+This app currently runs in mock mode by default while the Django REST backend is still under development. The frontend already includes localized public flows for menu browsing, reservations, gallery, contact/newsletter, cart, and checkout previews, while keeping backend-owned business authority out of the UI layer.
+
+## Project overview
+
+- Audience: public restaurant guests only
+- Locales: English and Japanese
+- Frontend stack: Next.js App Router, TypeScript, Tailwind CSS v4
+- State: Zustand for cart and small shared client state only
+- Forms: `react-hook-form` + `zod`
+- API layer: typed service modules over Axios
+- CMS/admin assumption: Django Admin, not a custom frontend admin dashboard
+
+## Mock mode note
+
+- Mock mode remains the default in [service-runtime.ts](/D:/yatri_restro_new/frontend/lib/service-runtime.ts).
+- The UI should continue to work without a live backend.
+- Mock data stays isolated under [mock-data](/D:/yatri_restro_new/frontend/lib/mock-data).
+- Final pricing, taxes, delivery fees, reservation conflicts, order acceptance, and payment status remain backend-owned concerns.
+
+## Backend contract note
+
+- Draft frontend-needed backend contract: [backend-api-contract.md](/D:/yatri_restro_new/frontend/docs/backend-api-contract.md)
+- Current audit note: [security-audit-notes.md](/D:/yatri_restro_new/frontend/docs/security-audit-notes.md)
+
+## Tech stack
+
+- `next` `16.2.6`
+- `react` `19`
+- `typescript`
+- `tailwindcss` `4`
+- `next-intl`
+- `axios`
+- `zustand`
+- `react-hook-form`
+- `zod`
+- `framer-motion`
+- `lucide-react`
+
+## Setup
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Create a local environment file from [.env.example](/D:/yatri_restro_new/frontend/.env.example):
+
+```bash
+copy .env.example .env.local
+```
+
+3. Set `NEXT_PUBLIC_API_URL` in `.env.local`.
+
+Important:
+
+- Next.js only exposes browser-readable environment variables when they are prefixed with `NEXT_PUBLIC_`.
+- Do not place secrets in `NEXT_PUBLIC_*` variables.
+- Do not commit `.env.local`.
+
+4. Start the dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open the app:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [http://localhost:3000](http://localhost:3000)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Common scripts
 
-## Learn More
+```bash
+npm run dev
+npm run build
+npm run start
+npm run lint
+npx tsc --noEmit
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Architecture notes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Public routes live under `app/[locale]/...`
+- Locale ownership comes from `next-intl`, not Zustand
+- Shared cart state lives in Zustand
+- Components must not call backend business APIs directly
+- Business API calls must go through typed services in [services](/D:/yatri_restro_new/frontend/services)
+- Service runtime switching stays centralized in [service-runtime.ts](/D:/yatri_restro_new/frontend/lib/service-runtime.ts)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Current public flows
 
-## Deploy on Vercel
+- Home preview
+- Menu listing and menu detail
+- Reservation preview and request submission
+- Gallery preview
+- Contact and newsletter submission
+- Cart review
+- Checkout preview
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Integration guidance
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+When the backend is ready:
+
+1. Confirm the Django API against [backend-api-contract.md](/D:/yatri_restro_new/frontend/docs/backend-api-contract.md)
+2. Keep response normalization in the adapter/service boundary
+3. Preserve the current `{ success, message, data }` envelope where possible
+4. Switch to live mode only after endpoint URLs, media shape, and validation error shape are confirmed
+
+## Guardrails
+
+- Do not build a custom admin dashboard in this app
+- Do not move backend-owned business rules into the frontend
+- Do not let components call Axios or `fetch` directly for business APIs
+- Do not persist customer personal data in Zustand or local storage

@@ -18,7 +18,9 @@ export function DetailSummary({ className, items }: DetailSummaryProps) {
       {items.map((item, index) => (
         <div key={`${item.label}-${index}`}>
           <dt>{item.label}</dt>
-          <dd>{item.value}</dd>
+          <dd>
+            <div className="detail-list__value">{item.value}</div>
+          </dd>
         </div>
       ))}
     </dl>

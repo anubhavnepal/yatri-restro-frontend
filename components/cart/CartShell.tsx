@@ -75,8 +75,8 @@ export function CartShell({ menuItems }: CartShellProps) {
               {t("integrationNote")}
             </p>
             <div className="mt-[var(--space-5)]">
-              <Link className="button-secondary inline-flex" href="/">
-                {t("returnHomeCta")}
+              <Link className="button-secondary inline-flex" href="/menu">
+                {t("browseMenuCta")}
               </Link>
             </div>
           </div>

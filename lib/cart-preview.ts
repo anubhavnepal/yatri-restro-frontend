@@ -1,4 +1,4 @@
-import { getLocalizedField } from "@/lib/localization";
+import { getLocalizedField, getLocalizedOptionalField } from "@/lib/localization";
 import type { AppLocale } from "@/types/common.types";
 import type { MenuAddonDTO, MenuItemDTO, MenuVariantDTO } from "@/types/menu.types";
 
@@ -13,6 +13,8 @@ export type CartPreviewLine = {
   menuItemId: string;
   quantity: number;
   title: string;
+  imageAlt?: string;
+  imageUrl?: string;
   unitPrice: number;
   lineTotal: number;
   variantName?: string;
@@ -81,6 +83,11 @@ export function buildCartPreviewSummary(
       menuItemId: selection.menuItemId,
       quantity: selection.quantity,
       title: getLocalizedField(item, "title", locale),
+      imageAlt:
+        getLocalizedOptionalField(item.image ?? {}, "alt", locale) ??
+        getLocalizedOptionalField(item.image ?? {}, "caption", locale) ??
+        getLocalizedField(item, "title", locale),
+      imageUrl: item.image?.url,
       unitPrice,
       lineTotal: unitPrice * selection.quantity,
       variantName: variant ? getLocalizedField(variant, "name", locale) : undefined,

@@ -46,7 +46,7 @@ export function MenuDetailShell({ item }: MenuDetailShellProps) {
         ) : null}
 
         <div className="flex flex-col gap-[var(--space-5)] px-[var(--space-5)] py-[var(--space-6)] sm:px-[var(--space-6)] sm:py-[var(--space-8)]">
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="eyebrow-cluster">
             <p className="eyebrow">{t("eyebrow")}</p>
             <span className="rounded-full border border-[color:var(--color-border-strong)] px-3 py-1 text-[0.68rem] uppercase tracking-[0.18em] text-[color:var(--color-foreground-soft)]">
               {t("categoryLabel")}: {categoryTitle}
@@ -65,7 +65,7 @@ export function MenuDetailShell({ item }: MenuDetailShellProps) {
           </div>
 
           {item.variants?.length ? (
-            <div className="flex flex-col gap-2">
+            <div className="section-card gap-3">
               <h2 className="text-sm font-medium text-[color:var(--color-foreground)]">
                 {t("variantsLabel")}
               </h2>
@@ -86,7 +86,7 @@ export function MenuDetailShell({ item }: MenuDetailShellProps) {
           ) : null}
 
           {item.addons?.length ? (
-            <div className="flex flex-col gap-2">
+            <div className="section-card gap-3">
               <h2 className="text-sm font-medium text-[color:var(--color-foreground)]">
                 {t("addonsLabel")}
               </h2>
@@ -108,8 +108,8 @@ export function MenuDetailShell({ item }: MenuDetailShellProps) {
         </div>
       </div>
 
-      <aside className="surface-panel flex flex-col gap-[var(--space-5)] px-[var(--space-5)] py-[var(--space-6)] sm:px-[var(--space-6)]">
-        <div className="flex flex-col gap-2">
+      <aside className="surface-panel flex flex-col gap-[var(--space-5)] px-[var(--space-5)] py-[var(--space-6)] sm:px-[var(--space-6)] lg:sticky lg:top-[var(--space-6)] lg:self-start">
+        <div className="section-card gap-2">
           <h2 className="font-serif text-2xl tracking-[0.04em]">
             {t("startingFromLabel")}
           </h2>
@@ -139,14 +139,14 @@ export function MenuDetailShell({ item }: MenuDetailShellProps) {
           {item.is_available ? t("addToCartCta") : t("unavailableCta")}
         </button>
 
-        <div className="rounded-[var(--radius-md)] border border-dashed border-[color:var(--color-border)] px-[var(--space-4)] py-[var(--space-4)] text-sm leading-7 text-[color:var(--color-foreground-soft)]">
-          <p className="font-medium text-[color:var(--color-foreground)]">
+        <div className="support-note">
+          <p className="support-note-title">
             {t("pricingTitle")}
           </p>
           <p>{t("pricingDescription")}</p>
         </div>
 
-        <div className="rounded-[var(--radius-md)] border border-[color:var(--color-border)] bg-[color:rgba(18,16,13,0.72)] px-[var(--space-4)] py-[var(--space-4)] text-sm leading-7 text-[color:var(--color-foreground-muted)]">
+        <div className="section-card text-sm leading-7 text-[color:var(--color-foreground-muted)]">
           <p className="font-medium text-[color:var(--color-foreground)]">
             {t("detailNoteTitle")}
           </p>

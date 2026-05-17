@@ -1,5 +1,6 @@
 'use client';
 
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useLocale, useTranslations } from "next-intl";
@@ -8,6 +9,7 @@ import { buildCartPreviewSummary } from "@/lib/cart-preview";
 import { Link } from "@/i18n/navigation";
 import { formatCurrency } from "@/lib/formatters";
 import { createZodResolver } from "@/lib/schema/react-hook-form";
+import { DetailSummary } from "@/components/ui/DetailSummary";
 import {
   createOrderCheckoutFormDefaults,
   createOrderCheckoutFormSchema,
@@ -124,8 +126,10 @@ export function CheckoutShell({ menuItems }: CheckoutShellProps) {
         </div>
 
         {items.length === 0 ? (
-          <div className="rounded-[var(--radius-lg)] border border-dashed border-[color:var(--color-border)] px-[var(--space-5)] py-[var(--space-6)]">
-            <h2 className="font-serif text-2xl tracking-[0.04em]">{t("emptyTitle")}</h2>
+          <div className="support-note px-[var(--space-5)] py-[var(--space-6)]">
+            <h2 className="font-serif text-2xl tracking-[0.04em] text-[color:var(--color-foreground)]">
+              {t("emptyTitle")}
+            </h2>
             <p className="mt-3 text-sm leading-7 text-[color:var(--color-foreground-muted)]">
               {t("emptyDescription")}
             </p>
@@ -137,7 +141,7 @@ export function CheckoutShell({ menuItems }: CheckoutShellProps) {
           </div>
         ) : (
           <form className="flex flex-col gap-[var(--space-5)]" noValidate onSubmit={onSubmit}>
-            <fieldset className="grid gap-3">
+            <fieldset className="section-card gap-3">
               <legend className="text-sm font-medium text-[color:var(--color-foreground)]">
                 {t("orderTypeLabel")}
               </legend>
@@ -153,7 +157,7 @@ export function CheckoutShell({ menuItems }: CheckoutShellProps) {
               </div>
             </fieldset>
 
-            <fieldset className="grid gap-3">
+            <fieldset className="section-card gap-3">
               <legend className="text-sm font-medium text-[color:var(--color-foreground)]">
                 {t("paymentMethodLabel")}
               </legend>
@@ -174,45 +178,47 @@ export function CheckoutShell({ menuItems }: CheckoutShellProps) {
               </div>
             </fieldset>
 
-            <div className="grid gap-[var(--space-4)] sm:grid-cols-2">
-              <label className="flex flex-col gap-2">
-                <span className="text-sm font-medium text-[color:var(--color-foreground)]">
-                  {t("nameLabel")}
-                </span>
-                <input className="form-control" type="text" {...form.register("customerName")} />
-                {form.formState.errors.customerName ? (
-                  <span className="field-error" role="alert">
-                    {form.formState.errors.customerName.message}
+            <div className="section-card gap-[var(--space-5)]">
+              <div className="grid gap-[var(--space-4)] sm:grid-cols-2">
+                <label className="flex flex-col gap-2">
+                  <span className="text-sm font-medium text-[color:var(--color-foreground)]">
+                    {t("nameLabel")}
                   </span>
-                ) : null}
-              </label>
+                  <input className="form-control" type="text" {...form.register("customerName")} />
+                  {form.formState.errors.customerName ? (
+                    <span className="field-error" role="alert">
+                      {form.formState.errors.customerName.message}
+                    </span>
+                  ) : null}
+                </label>
+                <label className="flex flex-col gap-2">
+                  <span className="text-sm font-medium text-[color:var(--color-foreground)]">
+                    {t("phoneLabel")}
+                  </span>
+                  <input className="form-control" type="tel" {...form.register("customerPhone")} />
+                  {form.formState.errors.customerPhone ? (
+                    <span className="field-error" role="alert">
+                      {form.formState.errors.customerPhone.message}
+                    </span>
+                  ) : null}
+                </label>
+              </div>
+
               <label className="flex flex-col gap-2">
                 <span className="text-sm font-medium text-[color:var(--color-foreground)]">
-                  {t("phoneLabel")}
+                  {t("emailLabel")}
                 </span>
-                <input className="form-control" type="tel" {...form.register("customerPhone")} />
-                {form.formState.errors.customerPhone ? (
+                <input className="form-control" type="email" {...form.register("customerEmail")} />
+                {form.formState.errors.customerEmail ? (
                   <span className="field-error" role="alert">
-                    {form.formState.errors.customerPhone.message}
+                    {form.formState.errors.customerEmail.message}
                   </span>
                 ) : null}
               </label>
             </div>
 
-            <label className="flex flex-col gap-2">
-              <span className="text-sm font-medium text-[color:var(--color-foreground)]">
-                {t("emailLabel")}
-              </span>
-              <input className="form-control" type="email" {...form.register("customerEmail")} />
-              {form.formState.errors.customerEmail ? (
-                <span className="field-error" role="alert">
-                  {form.formState.errors.customerEmail.message}
-                </span>
-              ) : null}
-            </label>
-
             {isDelivery ? (
-              <div className="grid gap-[var(--space-4)] rounded-[var(--radius-lg)] border border-[color:var(--color-border)] bg-[color:rgba(18,16,13,0.72)] px-[var(--space-4)] py-[var(--space-5)]">
+              <div className="section-card gap-[var(--space-4)] rounded-[var(--radius-lg)] px-[var(--space-4)] py-[var(--space-5)]">
                 <h2 className="font-serif text-2xl tracking-[0.04em]">
                   {t("deliverySectionTitle")}
                 </h2>
@@ -277,22 +283,24 @@ export function CheckoutShell({ menuItems }: CheckoutShellProps) {
               </div>
             ) : null}
 
-            <label className="flex flex-col gap-2">
-              <span className="text-sm font-medium text-[color:var(--color-foreground)]">
-                {t("specialRequestLabel")}
-              </span>
-              <textarea
-                className="form-control min-h-28 resize-y"
-                {...form.register("specialRequest")}
-              />
-              {form.formState.errors.specialRequest ? (
-                <span className="field-error" role="alert">
-                  {form.formState.errors.specialRequest.message}
+            <div className="section-card gap-3">
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-medium text-[color:var(--color-foreground)]">
+                  {t("specialRequestLabel")}
                 </span>
-              ) : null}
-            </label>
+                <textarea
+                  className="form-control min-h-28 resize-y"
+                  {...form.register("specialRequest")}
+                />
+                {form.formState.errors.specialRequest ? (
+                  <span className="field-error" role="alert">
+                    {form.formState.errors.specialRequest.message}
+                  </span>
+                ) : null}
+              </label>
+            </div>
 
-            <div className="flex flex-col gap-3">
+            <div className="divider-top flex flex-col gap-3">
               <button className="button-primary w-full sm:w-fit" type="submit">
                 {form.formState.isSubmitting ? t("submitLoading") : t("submitCta")}
               </button>
@@ -314,107 +322,103 @@ export function CheckoutShell({ menuItems }: CheckoutShellProps) {
         )}
       </div>
 
-      <aside className="surface-panel flex flex-col gap-[var(--space-5)] px-[var(--space-5)] py-[var(--space-6)] sm:px-[var(--space-6)]">
+      <aside className="surface-panel flex flex-col gap-[var(--space-5)] px-[var(--space-5)] py-[var(--space-6)] sm:px-[var(--space-6)] lg:sticky lg:top-[var(--space-6)] lg:self-start">
         <h2 className="font-serif text-2xl tracking-[0.04em]">{t("summaryTitle")}</h2>
-        <dl className="grid gap-3 text-sm leading-7">
-          <div className="flex items-center justify-between gap-4">
-            <dt className="text-[color:var(--color-foreground-muted)]">{t("lineItemsLabel")}</dt>
-            <dd className="font-medium text-[color:var(--color-foreground)]">{cartPreview.itemCount}</dd>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <dt className="text-[color:var(--color-foreground-muted)]">{t("quantityTotalLabel")}</dt>
-            <dd className="font-medium text-[color:var(--color-foreground)]">
-              {cartPreview.quantityTotal}
-            </dd>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <dt className="text-[color:var(--color-foreground-muted)]">{t("orderTypeSnapshotLabel")}</dt>
-            <dd className="font-medium text-[color:var(--color-foreground)]">
-              {orderType === "DINE_IN" ? t("dineInLabel") : t("deliveryLabel")}
-            </dd>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <dt className="text-[color:var(--color-foreground-muted)]">{t("estimatedSubtotalBeforeSubmitLabel")}</dt>
-            <dd className="font-medium text-[color:var(--color-foreground)]">
-              {formatCurrency(cartPreview.estimatedSubtotal, locale)}
-            </dd>
-          </div>
-        </dl>
+        <div className="section-card">
+          <DetailSummary
+            items={[
+              { label: t("lineItemsLabel"), value: cartPreview.itemCount },
+              { label: t("quantityTotalLabel"), value: cartPreview.quantityTotal },
+              {
+                label: t("orderTypeSnapshotLabel"),
+                value: orderType === "DINE_IN" ? t("dineInLabel") : t("deliveryLabel"),
+              },
+              {
+                label: t("estimatedSubtotalBeforeSubmitLabel"),
+                value: formatCurrency(cartPreview.estimatedSubtotal, locale),
+              },
+            ]}
+          />
+        </div>
 
         {cartPreview.lines.length > 0 ? (
-          <div className="rounded-[var(--radius-md)] border border-[color:var(--color-border)] bg-[color:rgba(18,16,13,0.72)] px-[var(--space-4)] py-[var(--space-4)]">
+          <div className="section-card">
             <h3 className="text-sm font-medium text-[color:var(--color-foreground)]">
               {t("cartItemsTitle")}
             </h3>
-            <ul className="mt-3 flex flex-col gap-2 text-sm leading-7 text-[color:var(--color-foreground-muted)]">
+            <ul className="mt-3 flex flex-col gap-3 text-sm leading-7 text-[color:var(--color-foreground-muted)]">
               {cartPreview.lines.map((line, index) => (
                 <li className="flex items-center justify-between gap-4" key={`${line.menuItemId}-${index}`}>
-                  <span>{line.title}</span>
-                  <span>{line.quantity}x</span>
+                  <div className="flex min-w-0 items-center gap-3">
+                    {line.imageUrl ? (
+                      <div className="item-thumbnail h-14 w-14">
+                        <Image
+                          alt={line.imageAlt ?? line.title}
+                          className="h-full w-full object-contain"
+                          src={line.imageUrl}
+                          width={56}
+                          height={56}
+                        />
+                      </div>
+                    ) : null}
+                    <span className="truncate">{line.title}</span>
+                  </div>
+                  <span className="shrink-0">{line.quantity}x</span>
                 </li>
               ))}
             </ul>
           </div>
         ) : null}
 
-        <div className="rounded-[var(--radius-md)] border border-dashed border-[color:var(--color-border)] px-[var(--space-4)] py-[var(--space-4)] text-sm leading-7 text-[color:var(--color-foreground-soft)]">
-          <p className="font-medium text-[color:var(--color-foreground)]">
+        <div className="support-note">
+          <p className="support-note-title">
             {t("estimatedTitle")}
           </p>
           <p>{t("estimatedDescription")}</p>
         </div>
 
         {pricingPreview ? (
-          <div className="rounded-[var(--radius-md)] border border-[color:var(--color-border)] bg-[color:rgba(18,16,13,0.72)] px-[var(--space-4)] py-[var(--space-4)]">
+          <div className="section-card">
             <h3 className="text-sm font-medium text-[color:var(--color-foreground)]">
               {t("responsePreviewTitle")}
             </h3>
-            <dl className="mt-3 grid gap-2 text-sm leading-7">
-              <div className="flex items-center justify-between gap-4">
-                <dt className="text-[color:var(--color-foreground-muted)]">{t("subtotalLabel")}</dt>
-                <dd className="font-medium text-[color:var(--color-foreground)]">
-                  {formatCurrency(pricingPreview.subtotal, locale, pricingPreview.currency)}
-                </dd>
-              </div>
-              <div className="flex items-center justify-between gap-4">
-                <dt className="text-[color:var(--color-foreground-muted)]">{t("estimatedTotalLabel")}</dt>
-                <dd className="font-medium text-[color:var(--color-foreground)]">
-                  {formatCurrency(
+            <DetailSummary
+              items={[
+                {
+                  label: t("subtotalLabel"),
+                  value: formatCurrency(pricingPreview.subtotal, locale, pricingPreview.currency),
+                },
+                {
+                  label: t("estimatedTotalLabel"),
+                  value: formatCurrency(
                     pricingPreview.estimated_total,
                     locale,
                     pricingPreview.currency,
-                  )}
-                </dd>
-              </div>
-            </dl>
+                  ),
+                },
+              ]}
+            />
           </div>
         ) : null}
 
         {(orderReference || orderStatusLabel || paymentStatusLabel) ? (
-          <div className="rounded-[var(--radius-md)] border border-[color:var(--color-border)] bg-[color:rgba(18,16,13,0.72)] px-[var(--space-4)] py-[var(--space-4)]">
+          <div className="section-card">
             <h3 className="text-sm font-medium text-[color:var(--color-foreground)]">
               {t("responseStatusTitle")}
             </h3>
-            <dl className="mt-3 grid gap-2 text-sm leading-7">
-              {orderReference ? (
-                <div className="flex items-center justify-between gap-4">
-                  <dt className="text-[color:var(--color-foreground-muted)]">{t("referenceLabel")}</dt>
-                  <dd className="font-medium text-[color:var(--color-foreground)]">{orderReference}</dd>
-                </div>
-              ) : null}
-              {orderStatusLabel ? (
-                <div className="flex items-center justify-between gap-4">
-                  <dt className="text-[color:var(--color-foreground-muted)]">{t("orderStatusLabel")}</dt>
-                  <dd className="font-medium text-[color:var(--color-foreground)]">{orderStatusLabel}</dd>
-                </div>
-              ) : null}
-              {paymentStatusLabel ? (
-                <div className="flex items-center justify-between gap-4">
-                  <dt className="text-[color:var(--color-foreground-muted)]">{t("paymentStatusLabel")}</dt>
-                  <dd className="font-medium text-[color:var(--color-foreground)]">{paymentStatusLabel}</dd>
-                </div>
-              ) : null}
-            </dl>
+            <DetailSummary
+              items={[
+                ...(orderReference
+                  ? [{ label: t("referenceLabel"), value: orderReference }]
+                  : []),
+                ...(orderStatusLabel
+                  ? [{ label: t("orderStatusLabel"), value: orderStatusLabel }]
+                  : []),
+                ...(paymentStatusLabel
+                  ? [{ label: t("paymentStatusLabel"), value: paymentStatusLabel }]
+                  : []),
+              ]}
+            />
           </div>
         ) : null}
 

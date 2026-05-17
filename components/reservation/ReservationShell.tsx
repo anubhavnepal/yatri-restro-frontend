@@ -202,7 +202,7 @@ export function ReservationShell() {
           </p>
         </div>
 
-        <div className="rounded-[var(--radius-md)] border border-[color:var(--color-border)] bg-[color:rgba(22,19,15,0.8)] px-[var(--space-4)] py-[var(--space-4)] text-sm leading-7 text-[color:var(--color-foreground-muted)]">
+        <div className="section-card text-sm leading-7 text-[color:var(--color-foreground-muted)]">
           <p className="font-medium text-[color:var(--color-foreground)]">
             {t("previewTitle")}
           </p>
@@ -210,74 +210,76 @@ export function ReservationShell() {
         </div>
 
         <form className="flex flex-col gap-[var(--space-5)]" noValidate onSubmit={onSubmit}>
-          <div className="grid gap-[var(--space-4)] sm:grid-cols-2">
-            <label className="flex flex-col gap-2">
-              <span className="text-sm font-medium text-[color:var(--color-foreground)]">
-                {t("dateLabel")}
-              </span>
-              <input
-                aria-describedby={
-                  form.formState.errors.date ? getFieldErrorId("reservation-date") : undefined
-                }
-                className="form-control"
-                type="date"
-                {...form.register("date")}
-              />
-              {form.formState.errors.date ? (
-                <span
-                  className="field-error"
-                  id={getFieldErrorId("reservation-date")}
-                  role="alert"
-                >
-                  {form.formState.errors.date.message}
+          <div className="section-card gap-[var(--space-5)]">
+            <div className="grid gap-[var(--space-4)] sm:grid-cols-2">
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-medium text-[color:var(--color-foreground)]">
+                  {t("dateLabel")}
                 </span>
-              ) : null}
-            </label>
+                <input
+                  aria-describedby={
+                    form.formState.errors.date ? getFieldErrorId("reservation-date") : undefined
+                  }
+                  className="form-control"
+                  type="date"
+                  {...form.register("date")}
+                />
+                {form.formState.errors.date ? (
+                  <span
+                    className="field-error"
+                    id={getFieldErrorId("reservation-date")}
+                    role="alert"
+                  >
+                    {form.formState.errors.date.message}
+                  </span>
+                ) : null}
+              </label>
 
-            <label className="flex flex-col gap-2">
-              <span className="text-sm font-medium text-[color:var(--color-foreground)]">
-                {t("guestCountLabel")}
-              </span>
-              <input
-                aria-describedby={
-                  form.formState.errors.guestCount
-                    ? getFieldErrorId("reservation-guest-count")
-                    : undefined
-                }
-                className="form-control"
-                min={1}
-                step={1}
-                type="number"
-                {...form.register("guestCount", { valueAsNumber: true })}
-              />
-              {form.formState.errors.guestCount ? (
-                <span
-                  className="field-error"
-                  id={getFieldErrorId("reservation-guest-count")}
-                  role="alert"
-                >
-                  {form.formState.errors.guestCount.message}
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-medium text-[color:var(--color-foreground)]">
+                  {t("guestCountLabel")}
                 </span>
-              ) : null}
-            </label>
+                <input
+                  aria-describedby={
+                    form.formState.errors.guestCount
+                      ? getFieldErrorId("reservation-guest-count")
+                      : undefined
+                  }
+                  className="form-control"
+                  min={1}
+                  step={1}
+                  type="number"
+                  {...form.register("guestCount", { valueAsNumber: true })}
+                />
+                {form.formState.errors.guestCount ? (
+                  <span
+                    className="field-error"
+                    id={getFieldErrorId("reservation-guest-count")}
+                    role="alert"
+                  >
+                    {form.formState.errors.guestCount.message}
+                  </span>
+                ) : null}
+              </label>
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <button
+                className="button-secondary"
+                onClick={handleAvailabilityPreview}
+                type="button"
+              >
+                {availabilityState.status === "loading"
+                  ? t("previewLoading")
+                  : t("previewCta")}
+              </button>
+              <span className="text-sm leading-7 text-[color:var(--color-foreground-soft)]">
+                {t("finalAuthorityNote")}
+              </span>
+            </div>
           </div>
 
-          <div className="flex flex-wrap gap-3">
-            <button
-              className="button-secondary"
-              onClick={handleAvailabilityPreview}
-              type="button"
-            >
-              {availabilityState.status === "loading"
-                ? t("previewLoading")
-                : t("previewCta")}
-            </button>
-            <span className="text-sm text-[color:var(--color-foreground-soft)]">
-              {t("finalAuthorityNote")}
-            </span>
-          </div>
-
-          <fieldset className="flex flex-col gap-3">
+          <fieldset className="section-card gap-3">
             <legend className="text-sm font-medium text-[color:var(--color-foreground)]">
               {t("timeSlotLabel")}
             </legend>
@@ -286,7 +288,7 @@ export function ReservationShell() {
               <div className="grid gap-3 sm:grid-cols-2">
                 {availableTimeSlots.map((slot) => (
                   <label
-                    className="rounded-[var(--radius-md)] border border-[color:var(--color-border)] bg-[color:rgba(18,16,13,0.72)] px-[var(--space-4)] py-[var(--space-4)] transition-colors hover:border-[color:var(--color-border-strong)]"
+                    className="selection-card flex-col items-start justify-start gap-2 px-[var(--space-4)] py-[var(--space-4)] text-left hover:border-[color:var(--color-border-strong)]"
                     key={slot.id}
                   >
                     <input
@@ -326,61 +328,63 @@ export function ReservationShell() {
             ) : null}
           </fieldset>
 
-          <div className="grid gap-[var(--space-4)] sm:grid-cols-2">
+          <div className="section-card gap-[var(--space-5)]">
+            <div className="grid gap-[var(--space-4)] sm:grid-cols-2">
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-medium text-[color:var(--color-foreground)]">
+                  {t("nameLabel")}
+                </span>
+                <input className="form-control" type="text" {...form.register("customerName")} />
+                {form.formState.errors.customerName ? (
+                  <span className="field-error" role="alert">
+                    {form.formState.errors.customerName.message}
+                  </span>
+                ) : null}
+              </label>
+
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-medium text-[color:var(--color-foreground)]">
+                  {t("emailLabel")}
+                </span>
+                <input className="form-control" type="email" {...form.register("customerEmail")} />
+                {form.formState.errors.customerEmail ? (
+                  <span className="field-error" role="alert">
+                    {form.formState.errors.customerEmail.message}
+                  </span>
+                ) : null}
+              </label>
+            </div>
+
             <label className="flex flex-col gap-2">
               <span className="text-sm font-medium text-[color:var(--color-foreground)]">
-                {t("nameLabel")}
+                {t("phoneLabel")}
               </span>
-              <input className="form-control" type="text" {...form.register("customerName")} />
-              {form.formState.errors.customerName ? (
+              <input className="form-control" type="tel" {...form.register("customerPhone")} />
+              {form.formState.errors.customerPhone ? (
                 <span className="field-error" role="alert">
-                  {form.formState.errors.customerName.message}
+                  {form.formState.errors.customerPhone.message}
                 </span>
               ) : null}
             </label>
 
             <label className="flex flex-col gap-2">
               <span className="text-sm font-medium text-[color:var(--color-foreground)]">
-                {t("emailLabel")}
+                {t("specialRequestLabel")}
               </span>
-              <input className="form-control" type="email" {...form.register("customerEmail")} />
-              {form.formState.errors.customerEmail ? (
+              <textarea
+                className="form-control min-h-28 resize-y"
+                {...form.register("specialRequest")}
+              />
+              <span className="field-hint">{t("specialRequestHint")}</span>
+              {form.formState.errors.specialRequest ? (
                 <span className="field-error" role="alert">
-                  {form.formState.errors.customerEmail.message}
+                  {form.formState.errors.specialRequest.message}
                 </span>
               ) : null}
             </label>
           </div>
 
-          <label className="flex flex-col gap-2">
-            <span className="text-sm font-medium text-[color:var(--color-foreground)]">
-              {t("phoneLabel")}
-            </span>
-            <input className="form-control" type="tel" {...form.register("customerPhone")} />
-            {form.formState.errors.customerPhone ? (
-              <span className="field-error" role="alert">
-                {form.formState.errors.customerPhone.message}
-              </span>
-            ) : null}
-          </label>
-
-          <label className="flex flex-col gap-2">
-            <span className="text-sm font-medium text-[color:var(--color-foreground)]">
-              {t("specialRequestLabel")}
-            </span>
-            <textarea
-              className="form-control min-h-28 resize-y"
-              {...form.register("specialRequest")}
-            />
-            <span className="field-hint">{t("specialRequestHint")}</span>
-            {form.formState.errors.specialRequest ? (
-              <span className="field-error" role="alert">
-                {form.formState.errors.specialRequest.message}
-              </span>
-            ) : null}
-          </label>
-
-          <div className="flex flex-col gap-3">
+          <div className="divider-top flex flex-col gap-3">
             <button className="button-primary w-full sm:w-fit" type="submit">
               {form.formState.isSubmitting ? t("submitLoading") : t("submitCta")}
             </button>
@@ -406,15 +410,16 @@ export function ReservationShell() {
         </form>
       </div>
 
-      <aside className="surface-panel flex flex-col gap-[var(--space-5)] px-[var(--space-5)] py-[var(--space-6)] sm:px-[var(--space-6)]">
+      <aside className="surface-panel flex flex-col gap-[var(--space-5)] px-[var(--space-5)] py-[var(--space-6)] sm:px-[var(--space-6)] lg:sticky lg:top-[var(--space-6)] lg:self-start">
         <h2 className="font-serif text-2xl tracking-[0.04em]">{t("sidebarTitle")}</h2>
         <p className="text-sm leading-7 text-[color:var(--color-foreground-muted)]">
           {t("sidebarDescription")}
         </p>
 
         <div
+          aria-busy={availabilityState.status === "loading"}
           aria-live="polite"
-          className="rounded-[var(--radius-md)] border border-[color:var(--color-border)] bg-[color:rgba(18,16,13,0.72)] px-[var(--space-4)] py-[var(--space-4)]"
+          className="section-card"
         >
           {availabilityState.status === "success" ? (
             <div className="flex flex-col gap-2 text-sm leading-7">
@@ -448,8 +453,8 @@ export function ReservationShell() {
           ) : null}
         </div>
 
-        <div className="rounded-[var(--radius-md)] border border-dashed border-[color:var(--color-border)] px-[var(--space-4)] py-[var(--space-4)] text-sm leading-7 text-[color:var(--color-foreground-soft)]">
-          <p className="font-medium text-[color:var(--color-foreground)]">
+        <div className="support-note">
+          <p className="support-note-title">
             {t("confirmationTitle")}
           </p>
           <p>{t("confirmationDescription")}</p>

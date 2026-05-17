@@ -1,5 +1,6 @@
 'use client';
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -10,6 +11,7 @@ import { getLocalizedField, getLocalizedOptionalField } from "@/lib/localization
 import { useCartStore } from "@/store/cart.store";
 import type { AppLocale } from "@/types/common.types";
 import type { MenuCategoryDTO, MenuItemDTO } from "@/types/menu.types";
+import { DetailSummary } from "@/components/ui/DetailSummary";
 
 type MenuShellProps = {
   categories: MenuCategoryDTO[];
@@ -41,8 +43,8 @@ export function MenuShell({ categories, items }: MenuShellProps) {
   );
 
   return (
-    <div className="grid gap-[var(--space-6)] lg:grid-cols-[minmax(0,1.2fr)_minmax(18rem,0.8fr)]">
-      <div className="flex flex-col gap-[var(--space-6)]">
+    <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_24rem]">
+      <div className="min-w-0 space-y-[var(--space-6)]">
         <div className="surface-panel flex flex-col gap-[var(--space-5)] px-[var(--space-5)] py-[var(--space-6)] sm:px-[var(--space-6)] sm:py-[var(--space-8)]">
           <div className="flex flex-col gap-3">
             <p className="eyebrow">{t("eyebrow")}</p>
@@ -54,24 +56,35 @@ export function MenuShell({ categories, items }: MenuShellProps) {
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-3">
-            <button
-              className={activeCategory === "all" ? "button-primary" : "button-secondary"}
-              onClick={() => setActiveCategory("all")}
-              type="button"
-            >
-              {t("allCategories")}
-            </button>
-            {categories.map((category) => (
+          <div className="section-card gap-3">
+            <div className="eyebrow-cluster">
+              <p className="text-xs font-medium uppercase tracking-[0.18em] text-[color:var(--color-foreground-soft)]">
+                {t("allCategories")}
+              </p>
+              <span
+                aria-hidden="true"
+                className="h-px flex-1 bg-[color:rgba(201,168,105,0.24)]"
+              />
+            </div>
+            <div className="flex flex-wrap gap-3">
               <button
-                className={activeCategory === category.slug ? "button-primary" : "button-secondary"}
-                key={category.id}
-                onClick={() => setActiveCategory(category.slug)}
+                className={activeCategory === "all" ? "button-primary" : "button-secondary"}
+                onClick={() => setActiveCategory("all")}
                 type="button"
               >
-                {getLocalizedField(category, "title", locale)}
+                {t("allCategories")}
               </button>
-            ))}
+              {categories.map((category) => (
+                <button
+                  className={activeCategory === category.slug ? "button-primary" : "button-secondary"}
+                  key={category.id}
+                  onClick={() => setActiveCategory(category.slug)}
+                  type="button"
+                >
+                  {getLocalizedField(category, "title", locale)}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -83,90 +96,136 @@ export function MenuShell({ categories, items }: MenuShellProps) {
               typeof item.category === "string"
                 ? item.category
                 : getLocalizedField(item.category, "title", locale);
+            const imageAlt =
+              item.image
+                ? getLocalizedOptionalField(item.image, "alt", locale) ??
+                  getLocalizedOptionalField(item.image, "caption", locale) ??
+                  title
+                : title;
 
             return (
               <article
-                className="surface-panel flex flex-col gap-[var(--space-4)] px-[var(--space-5)] py-[var(--space-5)] sm:px-[var(--space-6)]"
+                className="surface-panel overflow-hidden"
                 key={item.id}
               >
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                  <div className="flex flex-col gap-2">
-                    <p className="text-xs uppercase tracking-[0.18em] text-[color:var(--color-accent)]">
-                      {categoryTitle}
-                    </p>
-                    <h2 className="font-serif text-2xl tracking-[0.04em]">
+                <div className="flex flex-col gap-[var(--space-4)] p-[var(--space-4)] sm:p-[var(--space-5)]">
+                  <div className="flex flex-col gap-[var(--space-4)] md:flex-row md:items-start">
+                    {item.image ? (
+                      <div className="w-full shrink-0 md:w-[220px]">
+                        <div className="menu-card-media aspect-[4/3] w-full">
+                          <Image
+                            alt={imageAlt}
+                            className="h-full w-full object-contain"
+                            src={item.image.url}
+                            width={192}
+                            height={144}
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="w-full shrink-0 md:w-[220px]">
+                        <div className="menu-card-media aspect-[4/3] w-full">
+                          <div className="flex h-full w-full items-center justify-center text-sm text-[color:var(--color-foreground-soft)]">
+                            {categoryTitle}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                        <div className="min-w-0 flex-1 space-y-2">
+                          <p className="text-xs uppercase tracking-[0.18em] text-[color:var(--color-accent)]">
+                            {categoryTitle}
+                          </p>
+                          <h2 className="font-serif text-2xl tracking-[0.04em]">
+                            <Link
+                              className="transition-colors duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)] hover:text-[color:var(--color-accent)]"
+                              href={`/menu/${item.slug}`}
+                              prefetch={false}
+                            >
+                              {title}
+                            </Link>
+                          </h2>
+                          {description ? (
+                            <p className="text-sm leading-7 text-[color:var(--color-foreground-muted)]">
+                              {description}
+                            </p>
+                          ) : null}
+                        </div>
+                        <div className="shrink-0 md:text-right">
+                          <p className="text-sm text-[color:var(--color-foreground-soft)]">
+                            {t("startingFromLabel")}
+                          </p>
+                          <p className="text-lg font-medium text-[color:var(--color-foreground)]">
+                            {formatCurrency(item.price, locale)}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {item.variants?.length || item.addons?.length ? (
+                    <div className="grid gap-3 md:grid-cols-2">
+                      {item.variants?.length ? (
+                        <div className="section-card gap-2">
+                          <p className="text-sm font-medium text-[color:var(--color-foreground)]">
+                            {t("variantsLabel")}
+                          </p>
+                          <p className="text-sm leading-7 text-[color:var(--color-foreground-muted)]">
+                            {item.variants
+                              .map((variant) => getLocalizedField(variant, "name", locale))
+                              .join(", ")}
+                          </p>
+                        </div>
+                      ) : null}
+
+                      {item.addons?.length ? (
+                        <div className="section-card gap-2">
+                          <p className="text-sm font-medium text-[color:var(--color-foreground)]">
+                            {t("addonsLabel")}
+                          </p>
+                          <p className="text-sm leading-7 text-[color:var(--color-foreground-muted)]">
+                            {item.addons
+                              .map((addon) => getLocalizedField(addon, "name", locale))
+                              .join(", ")}
+                          </p>
+                        </div>
+                      ) : null}
+                    </div>
+                  ) : null}
+
+                  <div className="divider-top flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                    <div className="min-w-0 flex flex-col gap-1">
+                      <p className="text-sm text-[color:var(--color-foreground-soft)]">
+                        {item.is_available
+                          ? t("availabilityAvailable")
+                          : t("availabilityUnavailable")}
+                      </p>
                       <Link
-                        className="transition-colors duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)] hover:text-[color:var(--color-accent)]"
+                        className="text-sm font-medium text-[color:var(--color-accent)] transition-colors duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)] hover:text-[color:var(--color-accent-strong)]"
                         href={`/menu/${item.slug}`}
                         prefetch={false}
                       >
-                        {title}
+                        {t("viewDetailCta")}
                       </Link>
-                    </h2>
-                    {description ? (
-                      <p className="text-sm leading-7 text-[color:var(--color-foreground-muted)]">
-                        {description}
-                      </p>
-                    ) : null}
-                  </div>
-                  <div className="text-left sm:text-right">
-                    <p className="text-sm text-[color:var(--color-foreground-soft)]">
-                      {t("startingFromLabel")}
-                    </p>
-                    <p className="text-lg font-medium text-[color:var(--color-foreground)]">
-                      {formatCurrency(item.price, locale)}
-                    </p>
-                  </div>
-                </div>
-
-                {item.variants?.length ? (
-                  <p className="text-sm leading-7 text-[color:var(--color-foreground-muted)]">
-                    {t("variantsLabel")}:{" "}
-                    {item.variants
-                      .map((variant) => getLocalizedField(variant, "name", locale))
-                      .join(", ")}
-                  </p>
-                ) : null}
-
-                {item.addons?.length ? (
-                  <p className="text-sm leading-7 text-[color:var(--color-foreground-muted)]">
-                    {t("addonsLabel")}:{" "}
-                    {item.addons
-                      .map((addon) => getLocalizedField(addon, "name", locale))
-                      .join(", ")}
-                  </p>
-                ) : null}
-
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="flex flex-col gap-1">
-                    <p className="text-sm text-[color:var(--color-foreground-soft)]">
-                      {item.is_available
-                        ? t("availabilityAvailable")
-                        : t("availabilityUnavailable")}
-                    </p>
-                    <Link
-                      className="text-sm font-medium text-[color:var(--color-accent)] transition-colors duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)] hover:text-[color:var(--color-accent-strong)]"
-                      href={`/menu/${item.slug}`}
-                      prefetch={false}
+                    </div>
+                    <button
+                      className={item.is_available ? "button-primary self-start md:self-end" : "button-secondary self-start opacity-60 md:self-end"}
+                      disabled={!item.is_available}
+                      onClick={() =>
+                        addItem({
+                          menuItemId: item.id,
+                          quantity: 1,
+                          variantId: getDefaultVariantId(item),
+                          addonIds: [],
+                        })
+                      }
+                      type="button"
                     >
-                      {t("viewDetailCta")}
-                    </Link>
+                      {item.is_available ? t("addToCartCta") : t("unavailableCta")}
+                    </button>
                   </div>
-                  <button
-                    className={item.is_available ? "button-primary" : "button-secondary opacity-60"}
-                    disabled={!item.is_available}
-                    onClick={() =>
-                      addItem({
-                        menuItemId: item.id,
-                        quantity: 1,
-                        variantId: getDefaultVariantId(item),
-                        addonIds: [],
-                      })
-                    }
-                    type="button"
-                  >
-                    {item.is_available ? t("addToCartCta") : t("unavailableCta")}
-                  </button>
                 </div>
               </article>
             );
@@ -174,35 +233,31 @@ export function MenuShell({ categories, items }: MenuShellProps) {
         </div>
       </div>
 
-      <aside className="surface-panel flex flex-col gap-[var(--space-5)] px-[var(--space-5)] py-[var(--space-6)] sm:px-[var(--space-6)]">
-        <h2 className="font-serif text-2xl tracking-[0.04em]">{t("cartSummaryTitle")}</h2>
-        <p className="text-sm leading-7 text-[color:var(--color-foreground-muted)]">
-          {t("cartSummaryDescription")}
-        </p>
-        <dl className="grid gap-3 text-sm leading-7">
-          <div className="flex items-center justify-between gap-4">
-            <dt className="text-[color:var(--color-foreground-muted)]">{t("lineItemsLabel")}</dt>
-            <dd className="font-medium text-[color:var(--color-foreground)]">{cartPreview.itemCount}</dd>
+      <aside className="min-w-0 xl:sticky xl:top-[var(--space-6)] xl:self-start">
+        <div className="surface-panel flex flex-col gap-[var(--space-5)] px-[var(--space-5)] py-[var(--space-6)] sm:px-[var(--space-6)]">
+          <h2 className="font-serif text-2xl tracking-[0.04em]">{t("cartSummaryTitle")}</h2>
+          <p className="text-sm leading-7 text-[color:var(--color-foreground-muted)]">
+            {t("cartSummaryDescription")}
+          </p>
+          <div className="section-card">
+            <DetailSummary
+              items={[
+                { label: t("lineItemsLabel"), value: cartPreview.itemCount },
+                { label: t("quantityTotalLabel"), value: cartPreview.quantityTotal },
+                {
+                  label: t("estimatedSubtotalLabel"),
+                  value: formatCurrency(cartPreview.estimatedSubtotal, locale),
+                },
+              ]}
+            />
           </div>
-          <div className="flex items-center justify-between gap-4">
-            <dt className="text-[color:var(--color-foreground-muted)]">{t("quantityTotalLabel")}</dt>
-            <dd className="font-medium text-[color:var(--color-foreground)]">
-              {cartPreview.quantityTotal}
-            </dd>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <dt className="text-[color:var(--color-foreground-muted)]">{t("estimatedSubtotalLabel")}</dt>
-            <dd className="font-medium text-[color:var(--color-foreground)]">
-              {formatCurrency(cartPreview.estimatedSubtotal, locale)}
-            </dd>
-          </div>
-        </dl>
-        <p className="rounded-[var(--radius-md)] border border-dashed border-[color:var(--color-border)] px-[var(--space-4)] py-[var(--space-4)] text-sm leading-7 text-[color:var(--color-foreground-soft)]">
-          {t("pricingDisclaimer")}
-        </p>
-        <Link className="button-secondary" href="/cart">
-          {t("openCartCta")}
-        </Link>
+          <p className="support-note">
+            {t("pricingDisclaimer")}
+          </p>
+          <Link className="button-secondary" href="/cart">
+            {t("openCartCta")}
+          </Link>
+        </div>
       </aside>
     </div>
   );

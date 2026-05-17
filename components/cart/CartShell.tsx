@@ -1,5 +1,6 @@
 'use client';
 
+import Image from "next/image";
 import { useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -7,6 +8,7 @@ import { buildCartPreviewSummary } from "@/lib/cart-preview";
 import { formatCurrency } from "@/lib/formatters";
 import { Link } from "@/i18n/navigation";
 import { useCartStore } from "@/store/cart.store";
+import { DetailSummary } from "@/components/ui/DetailSummary";
 import type { AppLocale } from "@/types/common.types";
 import type { MenuItemDTO } from "@/types/menu.types";
 
@@ -42,26 +44,30 @@ export function CartShell({ menuItems }: CartShellProps) {
           </p>
         </div>
 
-        <div className="grid gap-[var(--space-4)] sm:grid-cols-2">
-          <button
-            className={orderType === "DINE_IN" ? "button-primary" : "button-secondary"}
-            onClick={() => setOrderType("DINE_IN")}
-            type="button"
-          >
-            {t("dineInLabel")}
-          </button>
-          <button
-            className={orderType === "DELIVERY" ? "button-primary" : "button-secondary"}
-            onClick={() => setOrderType("DELIVERY")}
-            type="button"
-          >
-            {t("deliveryLabel")}
-          </button>
+        <div className="section-card gap-3">
+          <div className="grid gap-[var(--space-4)] sm:grid-cols-2">
+            <button
+              className={orderType === "DINE_IN" ? "button-primary" : "button-secondary"}
+              onClick={() => setOrderType("DINE_IN")}
+              type="button"
+            >
+              {t("dineInLabel")}
+            </button>
+            <button
+              className={orderType === "DELIVERY" ? "button-primary" : "button-secondary"}
+              onClick={() => setOrderType("DELIVERY")}
+              type="button"
+            >
+              {t("deliveryLabel")}
+            </button>
+          </div>
         </div>
 
         {items.length === 0 ? (
-          <div className="rounded-[var(--radius-lg)] border border-dashed border-[color:var(--color-border)] px-[var(--space-5)] py-[var(--space-6)]">
-            <h2 className="font-serif text-2xl tracking-[0.04em]">{t("emptyTitle")}</h2>
+          <div className="support-note px-[var(--space-5)] py-[var(--space-6)]">
+            <h2 className="font-serif text-2xl tracking-[0.04em] text-[color:var(--color-foreground)]">
+              {t("emptyTitle")}
+            </h2>
             <p className="mt-3 text-sm leading-7 text-[color:var(--color-foreground-muted)]">
               {t("emptyDescription")}
             </p>
@@ -79,27 +85,41 @@ export function CartShell({ menuItems }: CartShellProps) {
             {cartPreview.lines.map((line, index) => {
               return (
                 <article
-                  className="rounded-[var(--radius-lg)] border border-[color:var(--color-border)] bg-[color:rgba(18,16,13,0.72)] px-[var(--space-5)] py-[var(--space-5)]"
+                  className="section-card gap-[var(--space-5)] rounded-[var(--radius-lg)] px-[var(--space-5)] py-[var(--space-5)]"
                   key={`${line.menuItemId}-${index}`}
                 >
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                    <div className="flex flex-col gap-2">
-                      <h2 className="text-base font-medium text-[color:var(--color-foreground)]">
-                        {line.title}
-                      </h2>
-                      {line.variantName ? (
-                        <p className="text-sm text-[color:var(--color-foreground-muted)]">
-                          {t("variantLabel")}: {line.variantName}
-                        </p>
+                    <div className="flex min-w-0 gap-4">
+                      {line.imageUrl ? (
+                        <div className="item-thumbnail h-20 w-20">
+                          <Image
+                            alt={line.imageAlt ?? line.title}
+                            className="h-full w-full object-contain"
+                            src={line.imageUrl}
+                            width={80}
+                            height={80}
+                          />
+                        </div>
                       ) : null}
-                      {line.addonNames.length > 0 ? (
-                        <p className="text-sm text-[color:var(--color-foreground-muted)]">
-                          {t("addonsLabel")}: {line.addonNames.join(", ")}
+
+                      <div className="flex min-w-0 flex-col gap-2">
+                        <h2 className="font-serif text-xl tracking-[0.03em] text-[color:var(--color-foreground)]">
+                          {line.title}
+                        </h2>
+                        {line.variantName ? (
+                          <p className="text-sm text-[color:var(--color-foreground-muted)]">
+                            {t("variantLabel")}: {line.variantName}
+                          </p>
+                        ) : null}
+                        {line.addonNames.length > 0 ? (
+                          <p className="text-sm text-[color:var(--color-foreground-muted)]">
+                            {t("addonsLabel")}: {line.addonNames.join(", ")}
+                          </p>
+                        ) : null}
+                        <p className="text-sm text-[color:var(--color-foreground-soft)]">
+                          {t("estimatedLineLabel")}: {formatCurrency(line.lineTotal, locale)}
                         </p>
-                      ) : null}
-                      <p className="text-sm text-[color:var(--color-foreground-soft)]">
-                        {t("estimatedLineLabel")}: {formatCurrency(line.lineTotal, locale)}
-                      </p>
+                      </div>
                     </div>
 
                     <button
@@ -117,47 +137,49 @@ export function CartShell({ menuItems }: CartShellProps) {
                     </button>
                   </div>
 
-                  <div className="mt-[var(--space-4)] flex items-center gap-3">
-                    <span className="text-sm text-[color:var(--color-foreground-muted)]">
+                  <div className="divider-top flex flex-wrap items-center gap-3">
+                    <span className="min-w-20 text-sm text-[color:var(--color-foreground-muted)]">
                       {t("quantityLabel")}
                     </span>
-                    <button
-                      aria-label={t("quantityDecrease")}
-                      className="button-ghost h-10 w-10 justify-center"
-                      onClick={() =>
-                        updateQuantity(
-                          {
-                            menuItemId: items[index]?.menuItemId ?? line.menuItemId,
-                            variantId: items[index]?.variantId,
-                            addonIds: items[index]?.addonIds ?? [],
-                          },
-                          line.quantity - 1,
-                        )
-                      }
-                      type="button"
-                    >
-                      -
-                    </button>
-                    <span className="min-w-10 text-center font-medium text-[color:var(--color-foreground)]">
-                      {line.quantity}
-                    </span>
-                    <button
-                      aria-label={t("quantityIncrease")}
-                      className="button-ghost h-10 w-10 justify-center"
-                      onClick={() =>
-                        updateQuantity(
-                          {
-                            menuItemId: items[index]?.menuItemId ?? line.menuItemId,
-                            variantId: items[index]?.variantId,
-                            addonIds: items[index]?.addonIds ?? [],
-                          },
-                          line.quantity + 1,
-                        )
-                      }
-                      type="button"
-                    >
-                      +
-                    </button>
+                    <div className="flex items-center gap-2 rounded-full border border-[color:var(--color-border)] bg-[color:rgba(10,9,7,0.42)] px-2 py-1">
+                      <button
+                        aria-label={t("quantityDecrease")}
+                        className="button-ghost h-10 w-10 justify-center"
+                        onClick={() =>
+                          updateQuantity(
+                            {
+                              menuItemId: items[index]?.menuItemId ?? line.menuItemId,
+                              variantId: items[index]?.variantId,
+                              addonIds: items[index]?.addonIds ?? [],
+                            },
+                            line.quantity - 1,
+                          )
+                        }
+                        type="button"
+                      >
+                        -
+                      </button>
+                      <span className="min-w-10 text-center font-medium text-[color:var(--color-foreground)]">
+                        {line.quantity}
+                      </span>
+                      <button
+                        aria-label={t("quantityIncrease")}
+                        className="button-ghost h-10 w-10 justify-center"
+                        onClick={() =>
+                          updateQuantity(
+                            {
+                              menuItemId: items[index]?.menuItemId ?? line.menuItemId,
+                              variantId: items[index]?.variantId,
+                              addonIds: items[index]?.addonIds ?? [],
+                            },
+                            line.quantity + 1,
+                          )
+                        }
+                        type="button"
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 </article>
               );
@@ -166,34 +188,26 @@ export function CartShell({ menuItems }: CartShellProps) {
         )}
       </div>
 
-      <aside className="surface-panel flex flex-col gap-[var(--space-5)] px-[var(--space-5)] py-[var(--space-6)] sm:px-[var(--space-6)]">
+      <aside className="surface-panel flex flex-col gap-[var(--space-5)] px-[var(--space-5)] py-[var(--space-6)] sm:px-[var(--space-6)] lg:sticky lg:top-[var(--space-6)] lg:self-start">
         <h2 className="font-serif text-2xl tracking-[0.04em]">{t("summaryTitle")}</h2>
-        <dl className="grid gap-3 text-sm leading-7">
-          <div className="flex items-center justify-between gap-4">
-            <dt className="text-[color:var(--color-foreground-muted)]">{t("orderTypeLabel")}</dt>
-            <dd className="font-medium text-[color:var(--color-foreground)]">
-              {orderType === "DINE_IN" ? t("dineInLabel") : t("deliveryLabel")}
-            </dd>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <dt className="text-[color:var(--color-foreground-muted)]">{t("lineItemsLabel")}</dt>
-            <dd className="font-medium text-[color:var(--color-foreground)]">{cartPreview.itemCount}</dd>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <dt className="text-[color:var(--color-foreground-muted)]">{t("quantityTotalLabel")}</dt>
-            <dd className="font-medium text-[color:var(--color-foreground)]">
-              {cartPreview.quantityTotal}
-            </dd>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <dt className="text-[color:var(--color-foreground-muted)]">{t("estimatedSubtotalLabel")}</dt>
-            <dd className="font-medium text-[color:var(--color-foreground)]">
-              {formatCurrency(cartPreview.estimatedSubtotal, locale)}
-            </dd>
-          </div>
-        </dl>
+        <div className="section-card">
+          <DetailSummary
+            items={[
+              {
+                label: t("orderTypeLabel"),
+                value: orderType === "DINE_IN" ? t("dineInLabel") : t("deliveryLabel"),
+              },
+              { label: t("lineItemsLabel"), value: cartPreview.itemCount },
+              { label: t("quantityTotalLabel"), value: cartPreview.quantityTotal },
+              {
+                label: t("estimatedSubtotalLabel"),
+                value: formatCurrency(cartPreview.estimatedSubtotal, locale),
+              },
+            ]}
+          />
+        </div>
 
-        <p className="rounded-[var(--radius-md)] border border-dashed border-[color:var(--color-border)] px-[var(--space-4)] py-[var(--space-4)] text-sm leading-7 text-[color:var(--color-foreground-soft)]">
+        <p className="support-note">
           {t("pricingNote")}
         </p>
 

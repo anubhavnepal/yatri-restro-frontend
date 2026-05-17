@@ -99,72 +99,74 @@ export function ContactShell() {
         </div>
 
         <form className="flex flex-col gap-[var(--space-5)]" noValidate onSubmit={onContactSubmit}>
-          <div className="grid gap-[var(--space-4)] sm:grid-cols-2">
-            <label className="flex flex-col gap-2">
-              <span className="text-sm font-medium text-[color:var(--color-foreground)]">
-                {t("nameLabel")}
-              </span>
-              <input className="form-control" type="text" {...contactForm.register("name")} />
-              {contactForm.formState.errors.name ? (
-                <span className="field-error" role="alert">
-                  {contactForm.formState.errors.name.message}
+          <div className="section-card gap-[var(--space-5)]">
+            <div className="grid gap-[var(--space-4)] sm:grid-cols-2">
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-medium text-[color:var(--color-foreground)]">
+                  {t("nameLabel")}
                 </span>
-              ) : null}
-            </label>
+                <input className="form-control" type="text" {...contactForm.register("name")} />
+                {contactForm.formState.errors.name ? (
+                  <span className="field-error" role="alert">
+                    {contactForm.formState.errors.name.message}
+                  </span>
+                ) : null}
+              </label>
+
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-medium text-[color:var(--color-foreground)]">
+                  {t("emailLabel")}
+                </span>
+                <input className="form-control" type="email" {...contactForm.register("email")} />
+                {contactForm.formState.errors.email ? (
+                  <span className="field-error" role="alert">
+                    {contactForm.formState.errors.email.message}
+                  </span>
+                ) : null}
+              </label>
+            </div>
+
+            <div className="grid gap-[var(--space-4)] sm:grid-cols-2">
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-medium text-[color:var(--color-foreground)]">
+                  {t("phoneLabel")}
+                </span>
+                <input className="form-control" type="tel" {...contactForm.register("phone")} />
+                {contactForm.formState.errors.phone ? (
+                  <span className="field-error" role="alert">
+                    {contactForm.formState.errors.phone.message}
+                  </span>
+                ) : null}
+              </label>
+
+              <label className="flex flex-col gap-2">
+                <span className="text-sm font-medium text-[color:var(--color-foreground)]">
+                  {t("subjectLabel")}
+                </span>
+                <input className="form-control" type="text" {...contactForm.register("subject")} />
+                {contactForm.formState.errors.subject ? (
+                  <span className="field-error" role="alert">
+                    {contactForm.formState.errors.subject.message}
+                  </span>
+                ) : null}
+              </label>
+            </div>
 
             <label className="flex flex-col gap-2">
               <span className="text-sm font-medium text-[color:var(--color-foreground)]">
-                {t("emailLabel")}
+                {t("messageLabel")}
               </span>
-              <input className="form-control" type="email" {...contactForm.register("email")} />
-              {contactForm.formState.errors.email ? (
+              <textarea className="form-control min-h-36 resize-y" {...contactForm.register("message")} />
+              <span className="field-hint">{t("contactHint")}</span>
+              {contactForm.formState.errors.message ? (
                 <span className="field-error" role="alert">
-                  {contactForm.formState.errors.email.message}
+                  {contactForm.formState.errors.message.message}
                 </span>
               ) : null}
             </label>
           </div>
 
-          <div className="grid gap-[var(--space-4)] sm:grid-cols-2">
-            <label className="flex flex-col gap-2">
-              <span className="text-sm font-medium text-[color:var(--color-foreground)]">
-                {t("phoneLabel")}
-              </span>
-              <input className="form-control" type="tel" {...contactForm.register("phone")} />
-              {contactForm.formState.errors.phone ? (
-                <span className="field-error" role="alert">
-                  {contactForm.formState.errors.phone.message}
-                </span>
-              ) : null}
-            </label>
-
-            <label className="flex flex-col gap-2">
-              <span className="text-sm font-medium text-[color:var(--color-foreground)]">
-                {t("subjectLabel")}
-              </span>
-              <input className="form-control" type="text" {...contactForm.register("subject")} />
-              {contactForm.formState.errors.subject ? (
-                <span className="field-error" role="alert">
-                  {contactForm.formState.errors.subject.message}
-                </span>
-              ) : null}
-            </label>
-          </div>
-
-          <label className="flex flex-col gap-2">
-            <span className="text-sm font-medium text-[color:var(--color-foreground)]">
-              {t("messageLabel")}
-            </span>
-            <textarea className="form-control min-h-36 resize-y" {...contactForm.register("message")} />
-            <span className="field-hint">{t("contactHint")}</span>
-            {contactForm.formState.errors.message ? (
-              <span className="field-error" role="alert">
-                {contactForm.formState.errors.message.message}
-              </span>
-            ) : null}
-          </label>
-
-          <div className="flex flex-col gap-3">
+          <div className="divider-top flex flex-col gap-3">
             <button className="button-primary w-full sm:w-fit" type="submit">
               {contactForm.formState.isSubmitting ? t("contactSubmitting") : t("contactSubmit")}
             </button>
@@ -183,16 +185,16 @@ export function ContactShell() {
         </form>
       </div>
 
-      <aside className="surface-panel flex flex-col gap-[var(--space-5)] px-[var(--space-5)] py-[var(--space-6)] sm:px-[var(--space-6)]">
+      <aside className="surface-panel flex flex-col gap-[var(--space-5)] px-[var(--space-5)] py-[var(--space-6)] sm:px-[var(--space-6)] lg:sticky lg:top-[var(--space-6)] lg:self-start">
         <h2 className="font-serif text-2xl tracking-[0.04em]">{t("newsletterTitle")}</h2>
         <p className="text-sm leading-7 text-[color:var(--color-foreground-muted)]">
           {t("newsletterDescription")}
         </p>
-        <p className="rounded-[var(--radius-md)] border border-dashed border-[color:var(--color-border)] px-[var(--space-4)] py-[var(--space-4)] text-sm leading-7 text-[color:var(--color-foreground-soft)]">
+        <p className="support-note">
           {t("newsletterHint")}
         </p>
 
-        <form className="flex flex-col gap-[var(--space-4)]" noValidate onSubmit={onNewsletterSubmit}>
+        <form className="section-card gap-[var(--space-4)]" noValidate onSubmit={onNewsletterSubmit}>
           <label className="flex flex-col gap-2">
             <span className="text-sm font-medium text-[color:var(--color-foreground)]">
               {t("newsletterEmailLabel")}

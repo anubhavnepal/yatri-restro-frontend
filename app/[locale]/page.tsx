@@ -31,12 +31,18 @@ export default async function LocaleHomePage({ params }: LocalePageProps) {
   return (
     <Section spacing="hero">
       <Container size="content">
-        <div className="surface-panel motion-fade-up flex flex-col gap-5 px-[var(--space-6)] py-[var(--space-8)] text-center sm:px-[var(--space-8)] sm:py-[var(--space-10)]">
-          <p className="eyebrow">{t("eyebrow")}</p>
+        <div className="surface-panel motion-fade-up flex flex-col gap-6 px-[var(--space-6)] py-[var(--space-8)] text-center sm:px-[var(--space-8)] sm:py-[var(--space-10)]">
+          <div className="eyebrow-cluster justify-center">
+            <p className="eyebrow">{t("eyebrow")}</p>
+            <span
+              aria-hidden="true"
+              className="h-px w-12 bg-[color:rgba(201,168,105,0.45)]"
+            />
+          </div>
           <h1 className="font-serif text-4xl leading-tight tracking-[0.04em] text-[color:var(--color-foreground)] sm:text-5xl">
             {t("title")}
           </h1>
-          <p className="text-base leading-8 text-[color:var(--color-foreground-muted)] sm:text-lg">
+          <p className="mx-auto max-w-2xl text-base leading-8 text-[color:var(--color-foreground-muted)] sm:text-lg">
             {t("description")}
           </p>
         </div>

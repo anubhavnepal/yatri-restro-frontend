@@ -38,9 +38,9 @@ export function GalleryShell({
       </div>
 
       {entries.length === 0 ? (
-        <div className="surface-panel flex flex-col gap-3 px-[var(--space-5)] py-[var(--space-6)] sm:px-[var(--space-6)]">
+        <div className="surface-panel flex flex-col gap-3 px-[var(--space-5)] py-[var(--space-6)] text-center sm:px-[var(--space-6)]">
           <h2 className="font-serif text-2xl tracking-[0.04em]">{emptyTitle}</h2>
-          <p className="text-sm leading-7 text-[color:var(--color-foreground-muted)]">
+          <p className="mx-auto max-w-2xl text-sm leading-7 text-[color:var(--color-foreground-muted)]">
             {emptyDescription}
           </p>
         </div>
@@ -62,7 +62,7 @@ export function GalleryShell({
             );
 
             return (
-              <article
+              <figure
                 className="surface-panel overflow-hidden"
                 key={entry.id}
               >
@@ -76,7 +76,7 @@ export function GalleryShell({
                     src={entry.image.url}
                   />
                 </div>
-                <div className="flex flex-col gap-3 px-[var(--space-5)] py-[var(--space-5)] sm:px-[var(--space-6)]">
+                <figcaption className="flex flex-col gap-4 px-[var(--space-5)] py-[var(--space-5)] sm:px-[var(--space-6)]">
                   <h2 className="font-serif text-2xl tracking-[0.04em]">
                     {titleText}
                   </h2>
@@ -86,12 +86,12 @@ export function GalleryShell({
                     </p>
                   ) : null}
                   {caption ? (
-                    <p className="text-sm leading-7 text-[color:var(--color-foreground-soft)]">
+                    <p className="border-t border-[color:rgba(93,77,57,0.64)] pt-3 text-sm leading-7 text-[color:var(--color-foreground-soft)]">
                       {caption}
                     </p>
                   ) : null}
-                </div>
-              </article>
+                </figcaption>
+              </figure>
             );
           })}
         </div>

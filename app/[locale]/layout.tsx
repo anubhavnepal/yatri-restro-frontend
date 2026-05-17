@@ -4,11 +4,13 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 
+import { primaryNavigation } from "@/config/navigation";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { routing } from "@/i18n/routing";
 import { buildRootMetadata } from "@/lib/metadata";
 import { AppProviders } from "@/providers/app-providers";
 import { resolveLocale } from "@/i18n/routing";
+import type { AppLocale } from "@/types/common.types";
 
 import "../globals.css";
 
@@ -67,6 +69,15 @@ export default async function LocaleLayout({
   const metaT = await getTranslations({ locale, namespace: "meta" });
   const commonT = await getTranslations({ locale, namespace: "common" });
   const shellT = await getTranslations({ locale, namespace: "shell" });
+  const navigationT = await getTranslations({ locale, namespace: "navigation" });
+  const navigationItems = primaryNavigation.map((item) => ({
+    ...item,
+    label: navigationT(item.key),
+  }));
+  const localeNames: Record<AppLocale, string> = {
+    en: commonT("localeEn"),
+    ja: commonT("localeJa"),
+  };
 
   return (
     <html
@@ -79,10 +90,16 @@ export default async function LocaleLayout({
             <SiteShell
               brandName={metaT("siteName")}
               brandTagline={shellT("brandTagline")}
+              currentLocale={locale}
               footerNote={shellT("footerNote")}
+              footerNavigationLabel={shellT("footerNavigationLabel")}
               footerStatusLabel={shellT("footerStatus")}
               footerTitle={shellT("footerTitle")}
               headerStatusLabel={shellT("headerStatus")}
+              localeLabel={shellT("localeSwitcherLabel")}
+              localeNames={localeNames}
+              navigationItems={navigationItems}
+              navigationLabel={shellT("primaryNavigationLabel")}
               skipToContentLabel={commonT("skipToContent")}
             >
               {children}

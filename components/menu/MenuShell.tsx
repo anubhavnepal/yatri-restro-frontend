@@ -98,6 +98,7 @@ export function MenuShell({ categories, items }: MenuShellProps) {
                       <Link
                         className="transition-colors duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)] hover:text-[color:var(--color-accent)]"
                         href={`/menu/${item.slug}`}
+                        prefetch={false}
                       >
                         {title}
                       </Link>
@@ -146,6 +147,7 @@ export function MenuShell({ categories, items }: MenuShellProps) {
                     <Link
                       className="text-sm font-medium text-[color:var(--color-accent)] transition-colors duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-standard)] hover:text-[color:var(--color-accent-strong)]"
                       href={`/menu/${item.slug}`}
+                      prefetch={false}
                     >
                       {t("viewDetailCta")}
                     </Link>

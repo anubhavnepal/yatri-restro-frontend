@@ -18,10 +18,18 @@ export async function generateMetadata({
 }: CartPageProps): Promise<Metadata> {
   const { locale } = await params;
 
-  return getTranslatedPageMetadata({
+  const metadata = await getTranslatedPageMetadata({
     locale: resolveLocale(locale),
     namespace: "CartPage",
   });
+
+  return {
+    ...metadata,
+    robots: {
+      follow: false,
+      index: false,
+    },
+  };
 }
 
 export default async function CartPage({ params }: CartPageProps) {

@@ -13,15 +13,20 @@
   },
   "common": {
     "language": "Language",
+    "localeEn": "English",
+    "localeJa": "日本語",
     "loading": "Loading...",
     "skipToContent": "Skip to main content"
   },
   "shell": {
     "brandTagline": "Nepali dining, composed with Japanese restraint",
     "headerStatus": "Shared shell",
+    "primaryNavigationLabel": "Primary navigation",
+    "localeSwitcherLabel": "Language",
     "footerTitle": "Customer-facing foundation",
     "footerNote": "This shell establishes the design language, layout rhythm, and accessibility baseline for the multilingual restaurant experience.",
-    "footerStatus": "Multilingual shell foundation"
+    "footerStatus": "Multilingual shell foundation",
+    "footerNavigationLabel": "Footer navigation"
   },
   "HomePage": {
     "eyebrow": "Foundation Ready",

@@ -18,10 +18,18 @@ export async function generateMetadata({
 }: CheckoutPageProps): Promise<Metadata> {
   const { locale } = await params;
 
-  return getTranslatedPageMetadata({
+  const metadata = await getTranslatedPageMetadata({
     locale: resolveLocale(locale),
     namespace: "CheckoutPage",
   });
+
+  return {
+    ...metadata,
+    robots: {
+      follow: false,
+      index: false,
+    },
+  };
 }
 
 export default async function CheckoutPage({

@@ -39,7 +39,7 @@ export function MenuDetailShell({ item }: MenuDetailShellProps) {
               className="object-cover"
               fill
               priority
-              sizes="(min-width: 1024px) 48rem, 100vw"
+              sizes="(min-width: 1280px) 52rem, (min-width: 1024px) 60vw, 100vw"
               src={item.image.url}
             />
           </div>

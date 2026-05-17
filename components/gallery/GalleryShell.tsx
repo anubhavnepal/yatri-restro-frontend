@@ -46,7 +46,7 @@ export function GalleryShell({
         </div>
       ) : (
         <div className="grid gap-[var(--space-4)] sm:grid-cols-2">
-          {entries.map((entry) => {
+          {entries.map((entry, index) => {
             const titleText = getLocalizedField(entry, "title", locale);
             const descriptionText = getLocalizedOptionalField(
               entry,
@@ -71,7 +71,8 @@ export function GalleryShell({
                     alt={imageAlt}
                     className="object-cover"
                     fill
-                    sizes="(min-width: 1024px) 30rem, 100vw"
+                    priority={index === 0}
+                    sizes="(min-width: 1280px) 36rem, (min-width: 640px) 50vw, 100vw"
                     src={entry.image.url}
                   />
                 </div>

@@ -14,6 +14,10 @@ export type NavigationItem = {
   prefetch?: boolean;
 };
 
+export type LocalizedNavigationItem = NavigationItem & {
+  label: string;
+};
+
 export const primaryNavigation: readonly NavigationItem[] = [
   { key: "home", href: "/" },
   { key: "menu", href: "/menu" },

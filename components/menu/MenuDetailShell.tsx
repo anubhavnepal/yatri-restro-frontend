@@ -1,6 +1,8 @@
 'use client';
 
+import { Check, ShoppingCart } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 import { Link } from "@/i18n/navigation";
@@ -17,8 +19,19 @@ type MenuDetailShellProps = {
 
 export function MenuDetailShell({ item }: MenuDetailShellProps) {
   const t = useTranslations("MenuDetailPage");
+  const tCommon = useTranslations("common");
   const locale = useLocale() as AppLocale;
   const addItem = useCartStore((state) => state.addItem);
+  const [showAddedState, setShowAddedState] = useState(false);
+  const addFeedbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (addFeedbackTimeoutRef.current) {
+        clearTimeout(addFeedbackTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const title = getLocalizedField(item, "title", locale);
   const description = getLocalizedOptionalField(item, "description", locale);
@@ -28,6 +41,24 @@ export function MenuDetailShell({ item }: MenuDetailShellProps) {
       : getLocalizedField(item.category, "title", locale);
   const imageAlt =
     item.image ? getLocalizedOptionalField(item.image, "alt", locale) ?? title : title;
+
+  function handleAddToCart() {
+    addItem({
+      addonIds: [],
+      menuItemId: item.id,
+      quantity: 1,
+      variantId: getDefaultVariantId(item),
+    });
+
+    if (addFeedbackTimeoutRef.current) {
+      clearTimeout(addFeedbackTimeoutRef.current);
+    }
+
+    setShowAddedState(true);
+    addFeedbackTimeoutRef.current = setTimeout(() => {
+      setShowAddedState(false);
+    }, 2400);
+  }
 
   return (
     <div className="grid gap-[var(--space-6)] lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)]">
@@ -124,19 +155,40 @@ export function MenuDetailShell({ item }: MenuDetailShellProps) {
         </div>
 
         <button
-          className={item.is_available ? "button-primary" : "button-secondary opacity-60"}
-          disabled={!item.is_available}
-          onClick={() =>
-            addItem({
-              addonIds: [],
-              menuItemId: item.id,
-              quantity: 1,
-              variantId: getDefaultVariantId(item),
-            })
+          aria-label={
+            item.is_available
+              ? showAddedState
+                ? tCommon("added")
+                : tCommon("addToCart")
+              : t("unavailableCta")
           }
+          className={
+            item.is_available
+              ? "button-primary button-cart-action"
+              : "button-secondary opacity-60"
+          }
+          data-added={item.is_available && showAddedState ? "true" : "false"}
+          disabled={!item.is_available}
+          onClick={handleAddToCart}
           type="button"
         >
-          {item.is_available ? t("addToCartCta") : t("unavailableCta")}
+          {item.is_available ? (
+            <>
+              {showAddedState ? (
+                <Check aria-hidden="true" size={16} strokeWidth={2.25} />
+              ) : (
+                <ShoppingCart aria-hidden="true" size={16} strokeWidth={2.1} />
+              )}
+              <span className="inline-flex min-w-[8.75rem] items-center justify-center whitespace-nowrap">
+                {showAddedState ? tCommon("added") : tCommon("addToCart")}
+              </span>
+              <span aria-live="polite" className="sr-only">
+                {showAddedState ? tCommon("added") : ""}
+              </span>
+            </>
+          ) : (
+            t("unavailableCta")
+          )}
         </button>
 
         <div className="support-note">

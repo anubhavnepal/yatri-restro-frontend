@@ -301,6 +301,37 @@ a {
   color: var(--color-foreground-muted);
 }
 
+.button-cart-action {
+  min-inline-size: 10.5rem;
+  cursor: pointer;
+  transition:
+    border-color var(--motion-duration-fast) var(--motion-ease-standard),
+    background-color var(--motion-duration-fast) var(--motion-ease-standard),
+    color var(--motion-duration-fast) var(--motion-ease-standard),
+    transform var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.button-cart-action svg {
+  flex-shrink: 0;
+}
+
+.button-cart-action:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.button-cart-action:not(:disabled):active {
+  transform: translateY(0);
+}
+
+.button-cart-action[data-added="true"] {
+  border-color: rgba(225, 197, 143, 0.82);
+  background: linear-gradient(180deg, rgba(201, 168, 105, 0.38), rgba(201, 168, 105, 0.24));
+}
+
+.button-cart-action:disabled {
+  cursor: not-allowed;
+}
+
 .field-error {
   color: #f0b6b6;
   font-size: 0.875rem;

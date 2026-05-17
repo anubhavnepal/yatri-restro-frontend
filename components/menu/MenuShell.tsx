@@ -1,7 +1,8 @@
 'use client';
 
+import { Check, ShoppingCart } from "lucide-react";
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 import { Link } from "@/i18n/navigation";
@@ -24,10 +25,42 @@ function getCategorySlug(item: MenuItemDTO): string | null {
 
 export function MenuShell({ categories, items }: MenuShellProps) {
   const t = useTranslations("MenuPage");
+  const tCommon = useTranslations("common");
   const locale = useLocale() as AppLocale;
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [recentlyAddedItemId, setRecentlyAddedItemId] = useState<string | null>(null);
   const addItem = useCartStore((state) => state.addItem);
   const cartItems = useCartStore((state) => state.items);
+  const addFeedbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (addFeedbackTimeoutRef.current) {
+        clearTimeout(addFeedbackTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  function handleAddToCart(item: MenuItemDTO) {
+    addItem({
+      menuItemId: item.id,
+      quantity: 1,
+      variantId: getDefaultVariantId(item),
+      addonIds: [],
+    });
+
+    if (addFeedbackTimeoutRef.current) {
+      clearTimeout(addFeedbackTimeoutRef.current);
+    }
+
+    setRecentlyAddedItemId(item.id);
+
+    addFeedbackTimeoutRef.current = setTimeout(() => {
+      setRecentlyAddedItemId((currentItemId) =>
+        currentItemId === item.id ? null : currentItemId,
+      );
+    }, 2400);
+  }
 
   const filteredItems = useMemo(() => {
     if (activeCategory === "all") {
@@ -92,6 +125,7 @@ export function MenuShell({ categories, items }: MenuShellProps) {
           {filteredItems.map((item) => {
             const title = getLocalizedField(item, "title", locale);
             const description = getLocalizedOptionalField(item, "description", locale);
+            const isRecentlyAdded = recentlyAddedItemId === item.id;
             const categoryTitle =
               typeof item.category === "string"
                 ? item.category
@@ -211,19 +245,40 @@ export function MenuShell({ categories, items }: MenuShellProps) {
                       </Link>
                     </div>
                     <button
-                      className={item.is_available ? "button-primary self-start md:self-end" : "button-secondary self-start opacity-60 md:self-end"}
-                      disabled={!item.is_available}
-                      onClick={() =>
-                        addItem({
-                          menuItemId: item.id,
-                          quantity: 1,
-                          variantId: getDefaultVariantId(item),
-                          addonIds: [],
-                        })
+                      aria-label={
+                        item.is_available
+                          ? isRecentlyAdded
+                            ? tCommon("added")
+                            : tCommon("addToCart")
+                          : t("unavailableCta")
                       }
+                      className={
+                        item.is_available
+                          ? "button-primary button-cart-action self-start md:self-end"
+                          : "button-secondary self-start opacity-60 md:self-end"
+                      }
+                      data-added={item.is_available && isRecentlyAdded ? "true" : "false"}
+                      disabled={!item.is_available}
+                      onClick={() => handleAddToCart(item)}
                       type="button"
                     >
-                      {item.is_available ? t("addToCartCta") : t("unavailableCta")}
+                      {item.is_available ? (
+                        <>
+                          {isRecentlyAdded ? (
+                            <Check aria-hidden="true" size={16} strokeWidth={2.25} />
+                          ) : (
+                            <ShoppingCart aria-hidden="true" size={16} strokeWidth={2.1} />
+                          )}
+                          <span className="inline-flex min-w-[8.75rem] items-center justify-center whitespace-nowrap">
+                            {isRecentlyAdded ? tCommon("added") : tCommon("addToCart")}
+                          </span>
+                          <span aria-live="polite" className="sr-only">
+                            {isRecentlyAdded ? tCommon("added") : ""}
+                          </span>
+                        </>
+                      ) : (
+                        t("unavailableCta")
+                      )}
                     </button>
                   </div>
                 </div>
